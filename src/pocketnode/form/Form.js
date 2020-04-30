@@ -3,7 +3,6 @@
  * There is no restriction on custom implementations other than that they must implement this.
  */
 class Form {
+  handleResponse(player, data) {}
 
-    handleResponse(player, data) {
-    };
 }

@@ -9,72 +9,74 @@
  *  @author PocketNode Team
  *  @link https://pocketnode.me
 */
-
 const BaseInventory = require("./BaseInventory");
 
 const Living = require("../entity/Living");
+
 const Item = require("../item/Item");
 
 class ArmorInventory extends BaseInventory {
-    /**
-     * @param holder {Living}
-     */
-    constructor(holder) {
-        super();
-        this.initVars();
+  /**
+   * @param holder {Living}
+   */
+  constructor(holder) {
+    super();
+    this.initVars();
+    this._holder = holder;
+  }
 
-        this._holder = holder;
-    }
+  static get SLOT_HEAD() {
+    return 0;
+  }
 
-    static get SLOT_HEAD() {
-        return 0
-    };
+  static get SLOT_CHEST() {
+    return 1;
+  }
 
-    static get SLOT_CHEST() {
-        return 1
-    };
+  static get SLOT_LEGS() {
+    return 2;
+  }
 
-    static get SLOT_LEGS() {
-        return 2
-    };
+  static get SLOT_FEET() {
+    return 3;
+  }
 
-    static get SLOT_FEET() {
-        return 3
-    };
+  initVars() {
+    this._holder = null;
+  }
+  /**
+   * @return {Living}
+   */
 
-    initVars() {
-        this._holder = null;
-    }
 
-    /**
-     * @return {Living}
-     */
-    getHolder() {
-        return this._holder;
-    }
+  getHolder() {
+    return this._holder;
+  }
+  /**
+   * @return {string}
+   */
 
-    /**
-     * @return {string}
-     */
-    getName() {
-        return "Armor";
-    }
 
-    /**
-     *
-     * @return {number}
-     */
-    getDefaultSize() {
-        return 4;
-    }
+  getName() {
+    return "Armor";
+  }
+  /**
+   *
+   * @return {number}
+   */
 
-    /**
-     * @return {Item}
-     */
-    getHelmet() {
-        return this.getItem();
-    }
 
+  getDefaultSize() {
+    return 4;
+  }
+  /**
+   * @return {Item}
+   */
+
+
+  getHelmet() {
+    return this.getItem();
+  }
 
 }
 

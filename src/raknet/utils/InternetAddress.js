@@ -1,45 +1,58 @@
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 class InternetAddress {
+  /** @type {string} */
 
-    /** @type {string} */
-    ip;
-    /** @type {number} */
-    port;
-    /** @type {number} */
-    version;
+  /** @type {number} */
 
-    /**
-     * @param address {string}
-     * @param port {number}
-     * @param version {number}
-     */
-    constructor(address, port, version) {
-        this.ip = address;
-        if (port < 0 || port > 65535) {
-            throw new Error('Invalid port range');
-        }
-        this.port = port;
-        this.version = version;
+  /** @type {number} */
+
+  /**
+   * @param address {string}
+   * @param port {number}
+   * @param version {number}
+   */
+  constructor(address, port, version) {
+    _defineProperty(this, "ip", void 0);
+
+    _defineProperty(this, "port", void 0);
+
+    _defineProperty(this, "version", void 0);
+
+    this.ip = address;
+
+    if (port < 0 || port > 65535) {
+      throw new Error('Invalid port range');
     }
 
-    /**
-     * @return {string}
-     */
-    getIp() {
-        return this.ip;
-    }
+    this.port = port;
+    this.version = version;
+  }
+  /**
+   * @return {string}
+   */
 
-    /**
-     * @return {number}
-     */
-    getPort() {
-        return this.port;
-    }
 
-    /**
-     * @return {number}
-     */
-    getVersion() {
-        return this.version;
-    }
+  getIp() {
+    return this.ip;
+  }
+  /**
+   * @return {number}
+   */
+
+
+  getPort() {
+    return this.port;
+  }
+  /**
+   * @return {number}
+   */
+
+
+  getVersion() {
+    return this.version;
+  }
+
 }
+
 module.exports = InternetAddress;

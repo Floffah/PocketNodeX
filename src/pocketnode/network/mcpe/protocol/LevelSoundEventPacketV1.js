@@ -1,47 +1,62 @@
 const DataPacket = require("./DataPacket");
+
 const ProtocolInfo = require("../Info");
 
 const Vector3 = require("../../../math/Vector3");
 
 class LevelSoundEventPacketV1 extends DataPacket {
-    static getId() {
-        return ProtocolInfo.LEVEL_SOUND_EVENT_PACKET_V1;
-    }
+  constructor() {
+    super();
+    this.initVars();
+  }
 
+  static getId() {
+    return ProtocolInfo.LEVEL_SOUND_EVENT_PACKET_V1;
+  }
+
+  initVars() {
     /** @type {number} */
-    sound;
+    this.sound = -1;
     /** @type {Vector3} */
-    position = new Vector3();
+
+    this.position = null;
     /** @type {number} */
-    extraData;
-    /** @type {string} */
-    entityType = ":";
+
+    this.extraData = 0;
+    /** @type {number} */
+
+    this.entityType = 1;
     /** @type {boolean} */
-    isBabyMob = false;
+
+    this.isBabyMob = false; //...
+
     /** @type {boolean} */
-    disableRelativeVolume = false;
 
-    _decodePayload() {
-        this.sound = this.readByte();
-        this.position = this.readVector3();
-        this.extraData = this.readVarInt();
-        this.entityType = this.readVarInt();
-        this.isBabyMob = this.readBool();
-        this.disableRelativeVolume = this.readBool();
-    }
+    this.disableRelativeVolume = false;
+  }
 
-    _encodePayload() {
-        this.writeByte(this.sound);
-        this.writeVector3(this.position);
-        this.writeVarInt(this.extraData);
-        this.writeVarInt(this.entityType);
-        this.writeBool(this.isBabyMob);
-        this.writeBool(this.disableRelativeVolume);
-    }
+  _decodePayload() {
+    this.sound = this.readByte();
+    this.position = this.readVector3();
+    this.extraData = this.readVarInt();
+    this.entityType = this.readVarInt();
+    this.isBabyMob = this.readBool();
+    this.disableRelativeVolume = this.readBool();
+  }
 
-    handle(session) {
-        return session.handleLevelSoundEventPacketV1(this);
-    }
+  _encodePayload() {
+    this.writeByte(this.sound);
+    this.writeVector3(this.position);
+    this.writeVarInt(this.extraData);
+    this.writeVarInt(this.entityType);
+    this.writeBool(this.isBabyMob);
+    this.writeBool(this.disableRelativeVolume);
+  }
+
+  handle(session) {
+    return session.handleLevelSoundEventPacketV1(this);
+  }
+
 }
 
 module.exports = LevelSoundEventPacketV1;

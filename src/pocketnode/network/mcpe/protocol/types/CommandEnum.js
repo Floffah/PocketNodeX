@@ -1,11 +1,12 @@
 class CommandEnum {
+  constructor() {
+    /** @type {string} */
+    this.enumName = "";
+    /** @type {string[]} */
 
-    constructor() {
-        /** @type {string} */
-        this.enumName = "";
-        /** @type {string[]} */
-        this.enumValues = [];
-    }
+    this.enumValues = [];
+  }
+
 }
 
 module.exports = CommandEnum;

@@ -1,69 +1,69 @@
 const Path = require("path");
 
 const UDPServerSocket = require("../server/UDPServerSocket");
+
 const SessionManager = require("../server/SessionManager");
+
 const PacketPool = require("../server/PacketPool");
+
 const ServerName = require("../server/ServerName");
 
 class RakNetServer {
-    constructor(port, logger) {
-        this.initVars();
+  constructor(port, logger) {
+    this.initVars();
 
-        if (port < 1 || port > 65536) {
-            throw new Error("Invalid port range");
-        }
-
-        this._port = port;
-        this._logger = logger;
-
-        this._server = new UDPServerSocket(port, logger);
-        this._sessionManager = new SessionManager(this, this._server);
+    if (port < 1 || port > 65536) {
+      throw new Error("Invalid port range");
     }
 
-    initVars() {
-        this._port = -1;
-        this._logger = null;
+    this._port = port;
+    this._logger = logger;
+    this._server = new UDPServerSocket(port, logger);
+    this._sessionManager = new SessionManager(this, this._server);
+  }
 
-        this._shutdown = false;
+  initVars() {
+    this._port = -1;
+    this._logger = null;
+    this._shutdown = false;
+    this._server = null;
+    this._sessionManager = null;
+    this._serverName = new ServerName();
+    this._packetPool = new PacketPool();
+  }
 
-        this._server = null;
-        this._sessionManager = null;
+  isShutdown() {
+    return this._shutdown === true;
+  }
 
-        this._serverName = new ServerName();
-        this._packetPool = new PacketPool();
-    }
+  shutdown() {
+    this._shutdown = true;
+  }
 
-    isShutdown() {
-        return this._shutdown === true;
-    }
+  getPort() {
+    return this._port;
+  }
 
-    shutdown() {
-        this._shutdown = true;
-    }
+  getServerName() {
+    return this._serverName;
+  }
 
-    getPort() {
-        return this._port;
-    }
+  getLogger() {
+    return this._logger;
+  }
 
-    getServerName() {
-        return this._serverName;
-    }
+  getId() {
+    return this.getServerName().getServerId();
+  }
 
-    getLogger() {
-        return this._logger;
-    }
+  getSessionManager() {
+    return this._sessionManager;
+  }
 
-    getId() {
-        return this.getServerName().getServerId();
-    }
+  getPacketPool() {
+    return this._packetPool;
+  }
 
-    getSessionManager() {
-        return this._sessionManager;
-    }
-
-    getPacketPool() {
-        return this._packetPool;
-    }
 }
 
 module.exports = RakNetServer;

@@ -1,3 +1,2 @@
-class BlockFactory {
-    //TODO
+class BlockFactory {//TODO
 }

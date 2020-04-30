@@ -1,25 +1,33 @@
 const DataPacket = require("./DataPacket");
+
 const ProtocolInfo = require("../Info");
 
 class SetDefaultGameTypePacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.SET_DEFAULT_GAME_TYPE_PACKET;
-    }
+  constructor() {
+    super();
+    this.initVars();
+  }
 
-    /** @type {number} */
-    gamemode = 0;
+  static getId() {
+    return ProtocolInfo.SET_DEFAULT_GAME_TYPE_PACKET;
+  }
 
-    _decodePayload() {
-        this.gamemode = this.readVarInt();
-    }
+  initVars() {
+    this.gamemode = -1;
+  }
 
-    _encodePayload() {
-        this.writeUnsignedVarInt(this.gamemode);
-    }
+  _decodePayload() {
+    this.gamemode = this.readVarInt();
+  }
 
-    handle(session) {
-        return session.handleSetDefaultGameType(this);
-    }
+  _encodePayload() {
+    this.writeUnsignedVarInt(this.gamemode);
+  }
+
+  handle(session) {
+    return session.handleSetDefaultGameType(this);
+  }
+
 }
 
 module.exports = SetDefaultGameTypePacket;

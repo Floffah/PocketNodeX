@@ -1,5 +1,3 @@
-class ArmorInventoryEventProcessor {
-
-}
+class ArmorInventoryEventProcessor {}
 
 module.exports = ArmorInventoryEventProcessor;

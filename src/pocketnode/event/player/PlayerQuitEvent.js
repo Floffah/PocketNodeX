@@ -12,40 +12,41 @@
 const PlayerEvent = require("./PlayerEvent");
 
 class PlayerQuitEvent extends PlayerEvent {
+  /**
+   * @param player
+   * @param quitMessage
+   * @param quitReason
+   */
+  constructor(player, quitMessage, quitReason) {
+    super();
+    this.player = player;
+    this.quitMessage = quitMessage;
+    this.quitReason = quitReason;
+  }
+  /**
+   * @param quitMessage
+   */
 
 
-    /**
-     * @param player
-     * @param quitMessage
-     * @param quitReason
-     */
-    constructor(player, quitMessage, quitReason) {
-        super();
-        this.player = player;
-        this.quitMessage = quitMessage;
-        this.quitReason = quitReason;
-    }
+  setQuitMessage(quitMessage) {
+    this.quitMessage = quitMessage;
+  }
+  /**
+   * @return TranslationContainer|string
+   */
 
-    /**
-     * @param quitMessage
-     */
-    setQuitMessage(quitMessage) {
-        this.quitMessage = quitMessage;
-    }
 
-    /**
-     * @return TranslationContainer|string
-     */
-    getQuitMessage() {
-        return this.quitMessage;
-    }
+  getQuitMessage() {
+    return this.quitMessage;
+  }
+  /**
+   * @return string
+   */
 
-    /**
-     * @return string
-     */
-    getQuitReason() {
-        return this.quitReason;
-    }
+
+  getQuitReason() {
+    return this.quitReason;
+  }
 
 }
 

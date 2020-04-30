@@ -1,33 +1,39 @@
 const DataPacket = require("./DataPacket");
+
 const ProtocolInfo = require("../Info");
 
 class CommandRequestPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.COMMAND_REQUEST_PACKET;
-    }
+  constructor() {
+    super();
+    this.initVars();
+  }
 
-    /** @type {string} */
-    command;
-    /** @type {any} */
-    originData;
-    /** @type {boolean} */
-    isInternal = false;
+  static getId() {
+    return ProtocolInfo.COMMAND_REQUEST_PACKET;
+  }
 
-    _decodePayload() {
-        this.command = this.readString();
-        this.originData = this.getCommandOriginData();
-        this.isInternal = this.readBool();
-    }
+  initVars() {
+    this.command = "";
+    this.originData = null;
+    this.isInternal = false;
+  }
 
-    _encodePayload() {
-        this.writeString(this.command);
-        this.putCommandOriginData(this.originData);
-        this.writeBool(this.isInternal);
-    }
+  _decodePayload() {
+    this.command = this.readString();
+    this.originData = this.getCommandOriginData();
+    this.isInternal = this.readBool();
+  }
 
-    handle(session) {
-        return session.handleCommandRequest(this);
-    }
+  _encodePayload() {
+    this.writeString(this.command);
+    this.putCommandOriginData(this.originData);
+    this.writeBool(this.isInternal);
+  }
+
+  handle(session) {
+    return session.handleCommandRequest(this);
+  }
+
 }
 
 module.exports = CommandRequestPacket;

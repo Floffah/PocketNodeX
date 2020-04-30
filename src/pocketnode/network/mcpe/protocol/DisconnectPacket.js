@@ -1,37 +1,46 @@
 const DataPacket = require("./DataPacket");
+
 const ProtocolInfo = require("../Info");
 
 class DisconnectPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.DISCONNECT_PACKET;
-    }
+  constructor() {
+    super();
+    this.initVars();
+  }
 
-    canBeSentBeforeLogin() {
-        return true;
-    }
+  static getId() {
+    return ProtocolInfo.DISCONNECT_PACKET;
+  }
 
-    /** @type {boolean} */
-    hideDisconnectionScreen = false;
-    /** @type {string} */
-    message;
+  initVars() {
+    this.hideDisconnectionScreen = false;
+    this.message = "";
+  }
 
-    _decodePayload() {
-        this.hideDisconnectionScreen = this.readBool();
-        if (!this.hideDisconnectionScreen) {
-            this.message = this.readString();
-        }
-    }
+  canBeSentBeforeLogin() {
+    return true;
+  }
 
-    _encodePayload() {
-        this.writeBool(this.hideDisconnectionScreen);
-        if (!this.hideDisconnectionScreen) {
-            this.writeString(this.message);
-        }
-    }
+  _decodePayload() {
+    this.hideDisconnectionScreen = this.readBool();
 
-    handle(session) {
-        return session.handleDisconnect(this);
+    if (!this.hideDisconnectionScreen) {
+      this.message = this.readString();
     }
+  }
+
+  _encodePayload() {
+    this.writeBool(this.hideDisconnectionScreen);
+
+    if (!this.hideDisconnectionScreen) {
+      this.writeString(this.message);
+    }
+  }
+
+  handle(session) {
+    return session.handleDisconnect(this);
+  }
+
 }
 
 module.exports = DisconnectPacket;

@@ -1,29 +1,37 @@
 const DataPacket = require("./DataPacket");
+
 const ProtocolInfo = require("../Info");
 
 class ServerToClientHandshakePacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.SERVER_TO_CLIENT_HANDSHAKE_PACKET;
-    }
+  constructor() {
+    super();
+    this.initVars();
+  }
 
-    /** @type {string} */
-    jwt;
+  static getId() {
+    return ProtocolInfo.SERVER_TO_CLIENT_HANDSHAKE_PACKET;
+  }
 
-    canBeSentBeforeLogin() {
-        return true;
-    }
+  initVars() {
+    this.jwt = "";
+  }
 
-    _decodePayload() {
-        this.jwt = this.readString();
-    }
+  canBeSentBeforeLogin() {
+    return true;
+  }
 
-    _encodePayload() {
-        this.writeString(this.jwt);
-    }
+  _decodePayload() {
+    this.jwt = this.readString();
+  }
 
-    handle(session) {
-        return session.handleServerToClientHandshake(this);
-    }
+  _encodePayload() {
+    this.writeString(this.jwt);
+  }
+
+  handle(session) {
+    return session.handleServerToClientHandshake(this);
+  }
+
 }
 
 module.exports = ServerToClientHandshakePacket;

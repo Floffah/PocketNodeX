@@ -9,6 +9,7 @@
  *  @author PocketNode Team
  *  @link https://pocketnode.me
 */
+
 /*
  *   _____           _        _   _   _           _
  *  |  __ \         | |      | | | \ | |         | |
@@ -20,22 +21,18 @@
  *  @author PocketNode Team
  *  @link https://pocketnode.me
 */
-
 const Item = require("../item/Item");
 
 class InventoryEventProcessor {
+  /**
+   * @return {Item}
+   * @param inventory
+   * @param slot
+   * @param oldItem
+   * @param newItem
+   */
+  onSlotChange(inventory, slot, oldItem, newItem) {}
 
-    /**
-     * @return {Item}
-     * @param inventory
-     * @param slot
-     * @param oldItem
-     * @param newItem
-     */
-    onSlotChange(inventory, slot, oldItem, newItem) {
-    };
-
-    //CheckTypes([Inventory, inventory], [Item, oldItem], [Item, newItem]);
 }
 
 module.exports = InventoryEventProcessor;

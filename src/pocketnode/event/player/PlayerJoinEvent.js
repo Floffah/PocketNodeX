@@ -12,34 +12,35 @@
 const PlayerEvent = require("./PlayerEvent");
 
 class PlayerJoinEvent extends PlayerEvent {
+  /**
+   * PlayerJoinEvent constructor.
+   *
+   * @param player
+   * @param joinMessage
+   */
+  constructor(player, joinMessage) {
+    super();
+    this.player = player;
+    /** @var string|TextContainer */
+
+    this.joinMessage = joinMessage;
+  }
+  /**
+   * @param joinMessage
+   */
 
 
-    /**
-     * PlayerJoinEvent constructor.
-     *
-     * @param player
-     * @param joinMessage
-     */
-    constructor(player, joinMessage) {
-        super();
-        this.player = player;
-        /** @var string|TextContainer */
-        this.joinMessage = joinMessage;
-    }
+  setJoinMessage(joinMessage) {
+    this.joinMessage = joinMessage;
+  }
+  /**
+   * @return string|TextContainer
+   */
 
-    /**
-     * @param joinMessage
-     */
-    setJoinMessage(joinMessage) {
-        this.joinMessage = joinMessage;
-    }
 
-    /**
-     * @return string|TextContainer
-     */
-    getJoinMessage() {
-        return this.joinMessage;
-    }
+  getJoinMessage() {
+    return this.joinMessage;
+  }
 
 }
 
