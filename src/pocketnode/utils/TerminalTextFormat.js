@@ -16,7 +16,6 @@ TerminalTextFormat.RED = TerminalTextFormat.ESCAPE + "[31;1m";
 TerminalTextFormat.LIGHT_PURPLE = TerminalTextFormat.ESCAPE + "[35;1m";
 TerminalTextFormat.YELLOW = TerminalTextFormat.ESCAPE + "[33;1m";
 TerminalTextFormat.WHITE = TerminalTextFormat.ESCAPE + "[37;1m";
-
 TerminalTextFormat.OBFUSCATED = TerminalTextFormat.ESCAPE + "[47m";
 TerminalTextFormat.BOLD = TerminalTextFormat.ESCAPE + "[1m";
 TerminalTextFormat.STRIKETHROUGH = TerminalTextFormat.ESCAPE + "[9m";
@@ -25,7 +24,7 @@ TerminalTextFormat.ITALIC = TerminalTextFormat.ESCAPE + "[3m";
 TerminalTextFormat.RESET = TerminalTextFormat.ESCAPE + "[0m";
 
 TerminalTextFormat.clean = function (message) {
-    return message.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+  return message.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
 };
 
 module.exports = TerminalTextFormat;

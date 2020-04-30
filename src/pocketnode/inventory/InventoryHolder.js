@@ -9,16 +9,14 @@
  *  @author PocketNode Team
  *  @link https://pocketnode.me
 */
-
 const Inventory = require("./Inventory");
 
 class InventoryHolder {
+  /**
+   * @return {Inventory}
+   */
+  getInventory() {}
 
-    /**
-     * @return {Inventory}
-     */
-    getInventory() {
-    };
 }
 
 module.exports = InventoryHolder;

@@ -12,10 +12,9 @@
 const Event = require("./Event");
 
 class TestEvent extends Event {
-
-    constructor() {
-        super();
-    }
+  constructor() {
+    super();
+  }
 
 }
 

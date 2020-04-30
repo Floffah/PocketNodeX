@@ -1,15 +1,16 @@
 class CommandSender {
-    constructor(server) {
-        this.server = server;
-    }
+  constructor(server) {
+    this.server = server;
+  }
 
-    hasPermission() {
-        return false;
-    }
+  hasPermission() {
+    return false;
+  }
 
-    getServer() {
-        return this.server;
-    }
+  getServer() {
+    return this.server;
+  }
+
 }
 
 module.exports = CommandSender;

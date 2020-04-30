@@ -1,29 +1,36 @@
 const DataPacket = require("./DataPacket");
+
 const ProtocolInfo = require("../Info");
 
 class SetActorDataPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.SET_ACTOR_DATA_PACKET;
-    }
+  constructor() {
+    super();
+    this.initVars();
+  }
 
-    /** @type {number} */
-    entityRuntimeId;
-    /** @type {any} */
-    metadata = null;
+  static getId() {
+    return ProtocolInfo.SET_ACTOR_DATA_PACKET;
+  }
 
-    _decodePayload() {
-        this.entityRuntimeId = this.readEntityRuntimeId();
-        this.metadata = this.readEntityMetadata();
-    }
+  initVars() {
+    this.entityRuntimeId = -1;
+    this.metadata = null;
+  }
 
-    _encodePayload() {
-        this.writeEntityRuntimeId(this.entityRuntimeId);
-        this.writeEntityMetadata(this.metadata);
-    }
+  _decodePayload() {
+    this.entityRuntimeId = this.getEntityRuntimeId();
+    this.metadata = this.readEntityMetadata();
+  }
 
-    handle(session) {
-        return session.handleSetEntityData(this);
-    }
+  _encodePayload() {
+    this.writeEntityRuntimeId(this.entityRuntimeId);
+    this.writeEntityMetadata(this.metadata);
+  }
+
+  handle(session) {
+    return session.handleSetEntityData(this);
+  }
+
 }
 
 module.exports = SetActorDataPacket;

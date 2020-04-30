@@ -1,107 +1,102 @@
 import INT32_MAX from "../PocketNode";
 
 class EffectInstance {
+  constructor(effectType, duration = null, amplifier = 0, visible = true, ambient = false, overrideColor = null) {
+    this.initVars();
+    this._effectType = effectType;
+    this._duration = duration;
+    this._amplifier = amplifier;
+    this._visible = visible;
+    this._ambient = ambient;
+    this._color = overrideColor; //todo finish here
+  }
 
-    constructor(effectType, duration = null, amplifier = 0, visible = true, ambient = false, overrideColor = null) {
-        this.initVars();
+  initVars() {
+    this._effectType = null;
+    this._duration = -1;
+    this._amplifier = -1;
+    this._visible = true;
+    this._ambient = false;
+    this._color = null;
+  }
 
-        this._effectType = effectType;
-        this._duration = duration;
-        this._amplifier = amplifier;
-        this._visible = visible;
-        this._ambient = ambient;
-        this._color = overrideColor; //todo finish here
+  getId() {
+    return this._effectType.getId();
+  }
+
+  getType() {
+    return this._effectType;
+  }
+
+  getDuration() {
+    return this._duration;
+  }
+
+  setDuration(duration) {
+    if (duration < 0 || duration > INT32_MAX) {
+      console.log(`Effect duration must be in range 0 - " . ${INT32_MAX} . ", got ${duration}`);
     }
 
-    initVars() {
-        this._effectType = null;
-        this._duration = -1;
-        this._amplifier = -1;
-        this._visible = true;
-        this._ambient = false;
-        this._color = null;
-    }
+    this._duration = duration;
+    return this;
+  }
 
-    getId() {
-        return this._effectType.getId();
-    }
+  decreaseDuration(ticks) {
+    this._duration = Math.max(0, this._duration - ticks);
+    return this;
+  }
 
-    getType() {
-        return this._effectType;
-    }
+  hasExpired() {
+    return this._duration <= 0;
+  }
 
-    getDuration() {
-        return this._duration;
-    }
+  getAmplifier() {
+    return this._amplifier;
+  }
 
-    setDuration(duration) {
-        if (duration < 0 || duration > INT32_MAX) {
-            console.log(`Effect duration must be in range 0 - " . ${INT32_MAX} . ", got ${duration}`);
-        }
-        this._duration = duration;
+  getEffectLevel() {
+    return this._amplifier + 1;
+  }
 
-        return this;
-    }
+  setAmplifier(amplifier) {
+    this._amplifier = amplifier;
+    return this;
+  }
 
-    decreaseDuration(ticks) {
-        this._duration = Math.max(0, this._duration - ticks);
+  isVisible()
+  /*: Boolean*/
+  {
+    return this._visible;
+  }
 
-        return this;
-    }
+  setVisible(visible) {
+    this._visible = visible;
+    return this;
+  }
 
-    hasExpired() {
-        return this._duration <= 0;
-    }
+  isAmbient() {
+    return this._ambient;
+  }
 
-    getAmplifier() {
-        return this._amplifier;
-    }
+  setAmbient(ambient) {
+    this._ambient = ambient;
+    return this;
+  }
 
-    getEffectLevel() {
-        return this._amplifier + 1;
-    }
+  getColor() {
+    return this._color;
+  }
 
-    setAmplifier(amplifier) {
-        this._amplifier = amplifier;
+  setColor(color) {
+    this._color = color.clone();
+    return this;
+  }
 
-        return this;
-    }
+  resetColor() {
+    this._color = this._effectType.getColor();
+    return this;
+  }
 
-    isVisible() /*: Boolean*/ {
-        return this._visible;
-    }
-
-    setVisible(visible) {
-        this._visible = visible;
-
-        return this;
-    }
-
-    isAmbient() {
-        return this._ambient;
-    }
-
-    setAmbient(ambient) {
-        this._ambient = ambient;
-
-        return this;
-    }
-
-    getColor() {
-        return this._color;
-    }
-
-    setColor(color) {
-        this._color = color.clone();
-
-        return this;
-    }
-
-    resetColor() {
-        this._color = this._effectType.getColor();
-
-        return this;
-    }
 }
 
 module.exports = EffectInstance;

@@ -1,25 +1,34 @@
 const DataPacket = require("./DataPacket");
+
 const ProtocolInfo = require("../Info");
 
 class RiderJumpPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.RIDER_JUMP_PACKET;
-    }
+  constructor() {
+    super();
+    this.initVars();
+  }
 
+  static getId() {
+    return ProtocolInfo.RIDER_JUMP_PACKET;
+  }
+
+  initVars() {
     /** @type {number} */
-    jumpStrenght;  // percentage
+    this.jumpStrenght = -1; //percentage
+  }
 
-    _decodePayload() {
-        this.jumpStrenght = this.readVarInt();
-    }
+  _decodePayload() {
+    this.jumpStrenght = this.readVarInt();
+  }
 
-    _encodePayload() {
-        this.writeVarInt(this.jumpStrenght);
-    }
+  _encodePayload() {
+    this.writeVarInt(this.jumpStrenght);
+  }
 
-    handle(session) {
-        return session.handleRiderJump(this);
-    }
+  handle(session) {
+    return session.handleRiderJump(this);
+  }
+
 }
 
 module.exports = RiderJumpPacket;

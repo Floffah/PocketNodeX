@@ -9,69 +9,69 @@
  *  @author PocketNode Team
  *  @link https://pocketnode.me
 */
-
 const SubChunkInterface = require("./SubChunkInterface");
 
 class EmptySubChunk extends SubChunkInterface {
-    constructor() {
-        super();
-    }
+  constructor() {
+    super();
+  }
 
-    isEmpty() {
-        return true;
-    }
+  isEmpty() {
+    return true;
+  }
 
-    getBlockId() {
-        return 0;
-    }
+  getBlockId() {
+    return 0;
+  }
 
-    setBlock() {
-        return false;
-    }
+  setBlock() {
+    return false;
+  }
 
-    setBlockId() {
-        return false;
-    }
+  setBlockId() {
+    return false;
+  }
 
-    getBlockData() {
-        return 0;
-    }
+  getBlockData() {
+    return 0;
+  }
 
-    setBlockData() {
-        return false;
-    }
+  setBlockData() {
+    return false;
+  }
 
-    getBlockLight() {
-        return 0;
-    }
+  getBlockLight() {
+    return 0;
+  }
 
-    setBlockLight() {
-        return false;
-    }
+  setBlockLight() {
+    return false;
+  }
 
-    getBlockSkyLight() {
-        return 0;
-    }
+  getBlockSkyLight() {
+    return 0;
+  }
 
-    setBlockSkyLight() {
-        return false;
-    }
+  setBlockSkyLight() {
+    return false;
+  }
 
-    getHighestBlockId() {
-        return 0;
-    }
+  getHighestBlockId() {
+    return 0;
+  }
 
-    getHighestBlockData() {
-        return 0;
-    }
+  getHighestBlockData() {
+    return 0;
+  }
 
-    getHighestBlock() {
-        return 0;
-    }
+  getHighestBlock() {
+    return 0;
+  }
 
-    toBinary() {
-        return Buffer.alloc(6145).fill(0x00);
-    }
+  toBinary() {
+    return Buffer.alloc(6145).fill(0x00);
+  }
+
 }
 
 module.exports = EmptySubChunk;

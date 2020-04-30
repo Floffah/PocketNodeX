@@ -1,25 +1,33 @@
 const DataPacket = require("./DataPacket");
+
 const ProtocolInfo = require("../Info");
 
 class SetPlayerGameTypePacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.SET_PLAYER_GAME_TYPE_PACKET;
-    }
+  constructor() {
+    super();
+    this.initVars();
+  }
 
-    /** @type {number} */
-    gamemode = 0;
+  static getId() {
+    return ProtocolInfo.SET_PLAYER_GAME_TYPE_PACKET;
+  }
 
-    _decodePayload() {
-        this.gamemode = this.readVarInt();
-    }
+  initVars() {
+    this.gamemode = -1;
+  }
 
-    _encodePayload() {
-        this.writeVarInt(this.gamemode);
-    }
+  _decodePayload() {
+    console.log("player gamemode packet called");
+    this.gamemode = this.readVarInt();
+  }
 
-    handle(session) {
-        return session.handleSetPlayerGameType(this);
-    }
+  _encodePayload() {
+    this.writeVarInt(this.gamemode);
+  }
+
+  handle(session) {
+    return session.handleSetPlayerGameType(this);
+  }
 
 }
 

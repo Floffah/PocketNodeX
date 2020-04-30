@@ -1,25 +1,34 @@
 const DataPacket = require("./DataPacket");
+
 const ProtocolInfo = require("../Info");
 
 class RemoveActorPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.REMOVE_ACTOR_PACKET;
-    }
+  constructor() {
+    super();
+    this.initVars();
+  }
 
+  static getId() {
+    return ProtocolInfo.REMOVE_ACTOR_PACKET;
+  }
+
+  initVars() {
     /** @type {number} */
-    entityUniqueId
+    this.entityUniqueId = -1;
+  }
 
-    _decodePayload() {
-        this.entityUniqueId = this.readEntityUniqueId();
-    }
+  _decodePayload() {
+    this.entityUniqueId = this.readEntityUniqueId();
+  }
 
-    _encodePayload() {
-        this.writeEntityUniqueId(this.entityUniqueId);
-    }
+  _encodePayload() {
+    this.writeEntityUniqueId(this.entityUniqueId);
+  }
 
-    handle(session) {
-        return session.handleRemoveActor(this);
-    }
+  handle(session) {
+    return session.handleRemoveActor(this);
+  }
+
 }
 
 module.exports = RemoveActorPacket;

@@ -1,29 +1,39 @@
 const DataPacket = require("./DataPacket");
+
 const ProtocolInfo = require("../Info");
 
 class TakeItemActorPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.TAKE_ITEM_ACTOR_PACKET;
-    }
+  constructor() {
+    super();
+    this.initVars();
+  }
 
+  static getId() {
+    return ProtocolInfo.TAKE_ITEM_ACTOR_PACKET;
+  }
+
+  initVars() {
     /** @type {number} */
-    target;
+    this.target = -1;
     /** @type {number} */
-    eid;
 
-    _decodePayload() {
-        this.target = this.readEntityRuntimeId();
-        this.eid = this.readEntityRuntimeId();
-    }
+    this.eid = -1;
+  }
 
-    _encodePayload() {
-        this.writeEntityRuntimeId(this.target);
-        this.writeEntityRuntimeId(this.eid);
-    }
+  _decodePayload() {
+    this.target = this.readEntityRuntimeId();
+    this.eid = this.readEntityRuntimeId();
+  }
 
-    handle(session) {
-        return session.handleTakeItemActor(this);
-    }
+  _encodePayload() {
+    this.writeEntityRuntimeId(this.target);
+    this.writeEntityRuntimeId(this.eid);
+  }
+
+  handle(session) {
+    return session.handleTakeItemActor(this);
+  }
+
 }
 
 module.exports = TakeItemActorPacket;
