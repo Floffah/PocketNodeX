@@ -1,3 +1,5 @@
-class Damageable {}
+class Damageable {
+
+}
 
 module.exports = Damageable;

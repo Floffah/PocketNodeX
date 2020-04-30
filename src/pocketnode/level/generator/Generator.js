@@ -9,38 +9,38 @@
  *  @author PocketNode Team
  *  @link https://pocketnode.me
 */
+
 const Chunk = require("../format/Chunk");
 
 class Generator {
-  /**
-   * Generator Options
-   * @constructor
-   * @param options
-   */
-  constructor(options = {}) {
-    this._options = options;
-  }
-  /**
-   * Generator Name
-   * @return {string}
-   */
 
+    /**
+     * Generator Options
+     * @constructor
+     * @param options
+     */
+    constructor(options = {}) {
+        this._options = options;
+    }
 
-  getName() {
-    return "unknown";
-  }
-  /**
-   * Generate Chunk
-   * @param chunkX {Number}
-   * @param chunkZ {Number}
-   * @param level {Level}
-   *
-   * @return {Boolean|Chunk}
-   */
+    /**
+     * Generator Name
+     * @return {string}
+     */
+    getName() {
+        return "unknown";
+    }
 
-
-  generateChunk(chunkX, chunkZ, level = null) {}
-
+    /**
+     * Generate Chunk
+     * @param chunkX {Number}
+     * @param chunkZ {Number}
+     * @param level {Level}
+     *
+     * @return {Boolean|Chunk}
+     */
+    generateChunk(chunkX, chunkZ, level = null) {
+    }
 }
 
 module.exports = Generator;
