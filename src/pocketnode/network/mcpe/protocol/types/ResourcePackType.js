@@ -1,31 +1,32 @@
 class ResourcePackType {
-  constructor() {//NOOP
-  }
 
-  static get INVALID() {
-    return 0;
-  }
+    constructor() {
+        //NOOP
+    }
 
-  static get RESOURCES() {
-    return 1;
-  }
+    static get INVALID() {
+        return 0
+    };
 
-  static get BEHAVIORS() {
-    return 2;
-  }
+    static get RESOURCES() {
+        return 1
+    };
 
-  static get WORLD_TEMPLATE() {
-    return 3;
-  }
+    static get BEHAVIORS() {
+        return 2
+    };
 
-  static get ADDON() {
-    return 4;
-  }
+    static get WORLD_TEMPLATE() {
+        return 3
+    };
 
-  static get SKINS() {
-    return 5;
-  }
+    static get ADDON() {
+        return 4
+    };
 
+    static get SKINS() {
+        return 5
+    };
 }
 
 module.exports = ResourcePackType;

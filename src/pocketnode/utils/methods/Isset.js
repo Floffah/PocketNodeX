@@ -4,7 +4,7 @@
  * @return {boolean}
  */
 function Isset(v) {
-  return typeof v !== "undefined";
+    return typeof v !== "undefined";
 }
 
 module.exports = Isset;

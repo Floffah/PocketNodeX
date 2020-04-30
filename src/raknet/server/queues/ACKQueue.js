@@ -1,20 +1,19 @@
 class ACKQueue extends Map {
-  add(v) {
-    this.set(v, true);
-  }
+    add(v) {
+        this.set(v, true);
+    }
 
-  remove(v) {
-    this.delete(v);
-  }
+    remove(v) {
+        this.delete(v);
+    }
 
-  getAll() {
-    return Array.from(this.keys());
-  }
+    getAll() {
+        return Array.from(this.keys());
+    }
 
-  isEmpty() {
-    return this.size === 0;
-  }
-
+    isEmpty() {
+        return this.size === 0;
+    }
 }
 
 module.exports = ACKQueue;

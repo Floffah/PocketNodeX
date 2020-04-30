@@ -1,75 +1,76 @@
 const PluginException = require("./PluginException");
 
 class PluginManifest {
-  constructor(data) {
-    this.initVars();
-    this.setManifest(data instanceof Object ? data : JSON.parse(data));
-  }
-
-  initVars() {
-    this.name = "";
-    this.main = "";
-    this.api = [];
-    this.version = "";
-    this.description = "";
-    this.authors = [];
-    this.website = "";
-    this.order = 0; //todo: implement this
-  }
-
-  setManifest(data) {
-    this.name = data.name.replace(/[^A-Za-z0-9 _.-]/g, "");
-
-    if (this.name === "") {
-      throw new PluginException("Invalid PluginManifest name!");
+    constructor(data) {
+        this.initVars();
+        this.setManifest(((data instanceof Object) ? data : JSON.parse(data)));
     }
 
-    this.name = this.name.replace(" ", "_");
-    this.version = data.version;
-    this.main = data.main;
-    this.api = Array.isArray(data.api) ? data.api : [data.api];
-    this.description = data.description;
-    this.website = data.website;
+    initVars() {
+        this.name = "";
+        this.main = "";
+        this.api = [];
 
-    if (typeof data.author !== "undefined") {
-      this.authors.push(data.author);
-    } else if (typeof data.authors !== "undefined") {
-      this.authors = data.authors;
+        this.version = "";
+
+        this.description = "";
+
+        this.authors = [];
+
+        this.website = "";
+
+        this.order = 0;//todo: implement this
     }
-  }
 
-  getFullName() {
-    return this.name + " v" + this.version;
-  }
+    setManifest(data) {
+        this.name = data.name.replace(/[^A-Za-z0-9 _.-]/g, "");
+        if (this.name === "") {
+            throw new PluginException("Invalid PluginManifest name!");
+        }
+        this.name = this.name.replace(" ", "_");
+        this.version = data.version;
+        this.main = data.main;
+        this.api = Array.isArray(data.api) ? data.api : [data.api];
+        this.description = data.description;
+        this.website = data.website;
+        if (typeof data.author !== "undefined") {
+            this.authors.push(data.author);
+        } else if (typeof data.authors !== "undefined") {
+            this.authors = data.authors;
+        }
+    }
 
-  getName() {
-    return this.name;
-  }
+    getFullName() {
+        return this.name + " v" + this.version;
+    }
 
-  getCompatibleApis() {
-    return this.api;
-  }
+    getName() {
+        return this.name;
+    }
 
-  getAuthors() {
-    return this.authors;
-  }
+    getCompatibleApis() {
+        return this.api;
+    }
 
-  getDescription() {
-    return this.description;
-  }
+    getAuthors() {
+        return this.authors;
+    }
 
-  getMain() {
-    return this.main;
-  }
+    getDescription() {
+        return this.description;
+    }
 
-  getVersion() {
-    return this.version;
-  }
+    getMain() {
+        return this.main;
+    }
 
-  getWebsite() {
-    return this.website;
-  }
+    getVersion() {
+        return this.version;
+    }
 
+    getWebsite() {
+        return this.website;
+    }
 }
 
 module.exports = PluginManifest;

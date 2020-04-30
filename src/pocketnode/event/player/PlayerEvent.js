@@ -12,14 +12,15 @@
 const Event = require("../Event");
 
 class PlayerEvent extends Event {
-  constructor() {
-    super();
-    this.player = null;
-  }
 
-  getPlayer() {
-    return this.player;
-  }
+    constructor() {
+        super();
+        this.player = null;
+    }
+
+    getPlayer() {
+        return this.player;
+    }
 
 }
 

@@ -9,71 +9,67 @@
  *  @author PocketNode Team
  *  @link https://pocketnode.me
 */
+
 const Generator = require("./Generator");
 
 class GeneratorManager {
-  constructor() {
+    constructor() {
+        /**
+         * @type {Map<String, Generator>} */
+        this._generators = new Map();
+    }
+
     /**
-     * @type {Map<String, Generator>} */
-    this._generators = new Map();
-  }
-  /**
-   * @param name {String}
-   * @param generator {Generator}
-   * @return {Boolean}
-   */
+     * @param name {String}
+     * @param generator {Generator}
+     * @return {Boolean}
+     */
+    addGenerator(name, generator) {
+        if (generator.prototype instanceof Generator && this._generators.has(name.toLowerCase())) {
+            this._generators.set(name.toLowerCase(), generator);
 
+            return true;
+        }
 
-  addGenerator(name, generator) {
-    if (generator.prototype instanceof Generator && this._generators.has(name.toLowerCase())) {
-      this._generators.set(name.toLowerCase(), generator);
-
-      return true;
+        return false;
     }
 
-    return false;
-  }
-  /**
-   * @return {Array<String>}
-   */
-
-
-  getGeneratorList() {
-    return Array.from(this._generators.keys());
-  }
-  /**
-   * @param name {String}
-   * @return {Generator|null}
-   */
-
-
-  getGenerator(name) {
-    if (this._generators.has(name = name.toLowerCase())) {
-      return this._generators.get(name);
+    /**
+     * @return {Array<String>}
+     */
+    getGeneratorList() {
+        return Array.from(this._generators.keys());
     }
 
-    return null; //normal
-  }
-  /**
-   * @param generator {Generator}
-   * @return {String}
-   */
+    /**
+     * @param name {String}
+     * @return {Generator|null}
+     */
+    getGenerator(name) {
+        if (this._generators.has(name = name.toLowerCase())) {
+            return this._generators.get(name);
+        }
 
-
-  getGeneratorName(generator) {
-    for (let [name, gen] of this._generators) {
-      if (gen === generator) {
-        return name;
-      }
+        return null; //normal
     }
 
-    return "unknown";
-  }
+    /**
+     * @param generator {Generator}
+     * @return {String}
+     */
+    getGeneratorName(generator) {
+        for (let [name, gen] of this._generators) {
+            if (gen === generator) {
+                return name;
+            }
+        }
 
-  isGenerator(gen) {
-    return gen.prototype instanceof Generator;
-  }
+        return "unknown";
+    }
 
+    isGenerator(gen) {
+        return gen.prototype instanceof Generator;
+    }
 }
 
 module.exports = GeneratorManager;

@@ -1,16 +1,19 @@
 const DataPacket = require("./DataPacket");
-
 const ProtocolInfo = require("../Info");
 
 class PlayerHotbarPacket extends DataPacket {
-  static getId() {
-    return ProtocolInfo.PLAYER_ACTION_PACKET;
-  }
 
-  _decodePayload() {}
+    static getId() {
+        return ProtocolInfo.PLAYER_ACTION_PACKET;
+    }
 
-  _encodePayload() {}
+    _decodePayload() {
 
+    }
+
+    _encodePayload() {
+
+    }
 }
 
 module.exports = PlayerHotbarPacket;

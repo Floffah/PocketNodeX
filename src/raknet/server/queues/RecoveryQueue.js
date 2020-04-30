@@ -1,35 +1,39 @@
 const Datagram = require("../../protocol/Datagram");
 
 class RecoveryQueue extends Map {
-  addRecoveryFor(datagram) {
-    CheckTypes([Datagram, datagram]);
-    this.set(datagram.sequenceNumber, datagram);
-  }
+    addRecoveryFor(datagram) {
+        CheckTypes([Datagram, datagram]);
 
-  isRecoverable(seqNumber) {
-    CheckTypes([Number, seqNumber]);
-    return this.has(seqNumber);
-  }
+        this.set(datagram.sequenceNumber, datagram);
+    }
 
-  recover(sequenceNumbers) {
-    CheckTypes([Array, sequenceNumbers]);
-    let datagrams = [];
-    sequenceNumbers.forEach(seqNumber => {
-      if (this.isRecoverable(seqNumber)) {
-        datagrams.push(this.get(seqNumber));
-      }
-    });
-    return datagrams;
-  }
+    isRecoverable(seqNumber) {
+        CheckTypes([Number, seqNumber]);
 
-  remove(seqNumber) {
-    this.delete(seqNumber);
-  }
+        return this.has(seqNumber);
+    }
 
-  isEmpty() {
-    return this.size === 0;
-  }
+    recover(sequenceNumbers) {
+        CheckTypes([Array, sequenceNumbers]);
 
+        let datagrams = [];
+
+        sequenceNumbers.forEach(seqNumber => {
+            if (this.isRecoverable(seqNumber)) {
+                datagrams.push(this.get(seqNumber));
+            }
+        });
+
+        return datagrams;
+    }
+
+    remove(seqNumber) {
+        this.delete(seqNumber);
+    }
+
+    isEmpty() {
+        return this.size === 0;
+    }
 }
 
 module.exports = RecoveryQueue;
