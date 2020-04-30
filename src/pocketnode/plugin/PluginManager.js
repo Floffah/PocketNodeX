@@ -17,13 +17,12 @@ class PluginManager {
 
     this.loadware = new Map();
   }
+
   /**
    * Get a plugin instance by name.
    * @param {String} name
    * @returns {EmptyPlugin|Plugin}
    */
-
-
   getPlugin(name) {
     let found = this.registry.get(name);
 
@@ -33,21 +32,19 @@ class PluginManager {
       return new EmptyPlugin();
     }
   }
+
   /**
    * Adds a class with functions ran for every plugin that is loaded. Must be called before PluginManager.load()
    * @param {Loadware} loadware
    */
-
-
   addLoadware(loadware) {
     this.loadware.add(loadware);
   }
+
   /**
    * Load a plugin.
    * @param {String} rootpath
    */
-
-
   loadPlugin(rootpath) {
     let files = {
       packagefl: Path.resolve(rootpath, 'package.json'),
@@ -67,14 +64,14 @@ class PluginManager {
   }
 
   disablePlugins() {}
+
   /**
    * Get the server.
    * @returns {Server}
    */
-
-
   getServer() {
     return this._server;
   }
-
 }
+
+module.exports = PluginManager;
