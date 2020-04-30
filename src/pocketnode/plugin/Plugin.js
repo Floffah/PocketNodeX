@@ -7,7 +7,6 @@ class NodePlugin {
   constructor(server) {
     this.getPluginManager = server.getPluginManager();
   }
-
 }
 
 module.exports = NodePlugin;

@@ -6,13 +6,9 @@ class EmptyPlugin extends NodePlugin {
   }
 
   enable() {}
-
   disable() {}
-
   load() {}
-
   unload() {}
-
 }
 
 module.exports = EmptyPlugin;

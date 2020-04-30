@@ -5,7 +5,6 @@
  */
 class Loadware {
   constructor() {}
-
 }
 
 module.exports = Loadware;

@@ -9,5 +9,6 @@ class Dependencies extends Loadware {
   constructor() {
     super();
   }
-
 }
+
+module.exports = Dependencies;
