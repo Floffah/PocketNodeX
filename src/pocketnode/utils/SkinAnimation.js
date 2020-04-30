@@ -1,28 +1,28 @@
 class SkinAnimation {
-  constructor(image, type, frames) {
-    this._image = image;
-    this._type = type;
-    this._frames = frames;
-  }
 
-  initVars() {
-    this._image = null;
-    this._type = -1;
-    this._frames = 0.0;
-  }
+    constructor(image, type, frames) {
+        this._image = image;
+        this._type = type;
+        this._frames = frames;
+    }
 
-  getImage() {
-    return this._image;
-  }
+    initVars() {
+        this._image = null;
+        this._type = -1;
+        this._frames = 0.0;
+    }
 
-  getType() {
-    return this._type;
-  }
+    getImage() {
+        return this._image;
+    }
 
-  getFrames() {
-    return this._frames;
-  }
+    getType() {
+        return this._type;
+    }
 
+    getFrames() {
+        return this._frames;
+    }
 }
 
 module.exports = SkinAnimation;

@@ -1,26 +1,37 @@
 class ChunkLoader {
-  getLoaderId() {}
 
-  isLoaderActive() {}
+    getLoaderId() {
+    }
 
-  getPosition() {}
+    isLoaderActive() {
+    }
 
-  getX() {}
+    getPosition() {
+    }
 
-  getZ() {}
+    getX() {
+    }
 
-  getLevel() {}
+    getZ() {
+    }
 
-  onChunkChanged(chunk) {}
+    getLevel() {
+    }
 
-  onChunkLoaded(chunk) {}
+    onChunkChanged(chunk) {
+    }
 
-  onChunkUnloaded(chunk) {}
+    onChunkLoaded(chunk) {
+    }
 
-  onChunkPopulated(chunk) {}
+    onChunkUnloaded(chunk) {
+    }
 
-  onBlockChanged(block) {}
+    onChunkPopulated(chunk) {
+    }
 
+    onBlockChanged(block) {
+    }
 }
 
 module.exports = ChunkLoader;

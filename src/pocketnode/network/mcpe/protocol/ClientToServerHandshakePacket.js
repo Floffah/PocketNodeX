@@ -1,26 +1,27 @@
 const DataPacket = require("./DataPacket");
-
 const ProtocolInfo = require("../Info");
 
 class ClientToServerHandshakePacket extends DataPacket {
-  static getId() {
-    return ProtocolInfo.CLIENT_TO_SERVER_HANDSHAKE_PACKET;
-  }
 
-  canBeSentBeforeLogin() {
-    return true;
-  }
+    static getId() {
+        return ProtocolInfo.CLIENT_TO_SERVER_HANDSHAKE_PACKET;
+    }
 
-  _decodePayload() {// no payload
-  }
+    canBeSentBeforeLogin() {
+        return true;
+    }
 
-  _encodePayload() {// no payload
-  }
+    _decodePayload() {
+        // no payload
+    }
 
-  handle(session) {
-    return session.handleClientToServerHandshake(this);
-  }
+    _encodePayload() {
+        // no payload
+    }
 
+    handle(session) {
+        return session.handleClientToServerHandshake(this);
+    }
 }
 
 module.exports = ClientToServerHandshakePacket;

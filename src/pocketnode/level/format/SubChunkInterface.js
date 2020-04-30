@@ -9,18 +9,33 @@
  *  @author PocketNode Team
  *  @link https://pocketnode.me
 */
+
 const ClassHasMethod = require("../../utils/methods/ClassHasMethod");
 
 class SubChunkInterface {
-  constructor() {
-    let methods = ["isEmpty", "getBlockId", "setBlock", "setBlockId", "getBlockData", "setBlockData", "getBlockLight", "setBlockLight", "getBlockSkyLight", "setBlockSkyLight", "getHighestBlockId", "getHighestBlockData", "getHighestBlock", "toBinary"];
-    let missingMethods;
+    constructor() {
+        let methods = [
+            "isEmpty",
+            "getBlockId",
+            "setBlock",
+            "setBlockId",
+            "getBlockData",
+            "setBlockData",
+            "getBlockLight",
+            "setBlockLight",
+            "getBlockSkyLight",
+            "setBlockSkyLight",
+            "getHighestBlockId",
+            "getHighestBlockData",
+            "getHighestBlock",
+            "toBinary"
+        ];
 
-    if ((missingMethods = ClassHasMethod(this.constructor, methods)) !== true) {
-      throw new Error(this.constructor.name + " is missing the following method(s): " + missingMethods.join(", "));
+        let missingMethods;
+        if ((missingMethods = ClassHasMethod(this.constructor, methods)) !== true) {
+            throw new Error(this.constructor.name + " is missing the following method(s): " + missingMethods.join(", "));
+        }
     }
-  }
-
 }
 
 module.exports = SubChunkInterface;

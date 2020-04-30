@@ -1,85 +1,83 @@
 const FileSystem = require("fs");
-
 const Path = require("path");
 
 const PluginBase = require("./PluginBase");
-
 const PluginLoader = require("./PluginLoader");
-
 const PluginManifest = require("./PluginManifest");
 
 class ScriptPluginLoader extends PluginLoader {
-  constructor(server) {
-    super();
-    this.server = server;
-  }
+    constructor(server) {
+        super();
+        this.server = server;
+    }
 
-  loadPlugin(file) {
-    let manifest;
+    loadPlugin(file) {
+        let manifest;
+        if ((manifest = this.getPluginManifest(file)) instanceof PluginManifest) {
+            let logger = this.server.getLogger();
 
-    if ((manifest = this.getPluginManifest(file)) instanceof PluginManifest) {
-      let logger = this.server.getLogger();
-      logger.info("Loading plugin " + manifest.getFullName());
-      let dataFolder = Path.dirname(file) + "/" + manifest.getName();
+            logger.info("Loading plugin " + manifest.getFullName());
+            let dataFolder = Path.dirname(file) + "/" + manifest.getName();
 
-      if (FileSystem.existsSync(dataFolder) && !FileSystem.lstatSync(dataFolder).isDirectory()) {
-        logger.warning("Data folder '" + dataFolder + "' for plugin " + manifest.getName() + " exists but is not a directory");
-        return null;
-      }
+            if (FileSystem.existsSync(dataFolder) && !FileSystem.lstatSync(dataFolder).isDirectory()) {
+                logger.warning("Data folder '" + dataFolder + "' for plugin " + manifest.getName() + " exists but is not a directory");
+                return null;
+            }
 
-      let plugin = require(file);
-
-      if (typeof plugin.plugin !== "undefined") {
-        plugin = new plugin.plugin();
-
-        if (plugin instanceof PluginBase) {
-          this.initPlugin(plugin, manifest, dataFolder, file);
-          return plugin;
+            let plugin = require(file);
+            if (typeof plugin.plugin !== "undefined") {
+                plugin = new plugin.plugin();
+                if (plugin instanceof PluginBase) {
+                    this.initPlugin(plugin, manifest, dataFolder, file);
+                    return plugin;
+                }
+            }
         }
-      }
+
+        return null;
     }
 
-    return null;
-  }
+    getPluginManifest(file) {
+        let plugin = require(file);
+        if (typeof plugin.manifest !== "undefined") {
+            if (plugin.manifest instanceof PluginManifest) {
+                return plugin.manifest;
+            } else if (plugin.manifest instanceof Object) {
+                return new PluginManifest(plugin.manifest);
+            }
+        }
 
-  getPluginManifest(file) {
-    let plugin = require(file);
-
-    if (typeof plugin.manifest !== "undefined") {
-      if (plugin.manifest instanceof PluginManifest) {
-        return plugin.manifest;
-      } else if (plugin.manifest instanceof Object) {
-        return new PluginManifest(plugin.manifest);
-      }
+        return null;
     }
 
-    return null;
-  }
-
-  getPluginFilters() {
-    return /^[^\\/]*\.js/g;
-  }
-
-  initPlugin(plugin, manifest, dataFolder, file) {
-    plugin.init(this, this.server, manifest, dataFolder, file);
-    plugin.onLoad();
-  }
-
-  enablePlugin(plugin) {
-    if (plugin instanceof PluginBase && !plugin.isEnabled()) {
-      this.server.getLogger().info("Enabling " + plugin.getFullName());
-      plugin.setEnabled(true); //todo: event stuff: call PluginEnableEvent
+    getPluginFilters() {
+        return /^[^\\/]*\.js/g;
     }
-  }
 
-  disablePlugin(plugin) {
-    if (plugin instanceof PluginBase && plugin.isEnabled()) {
-      this.server.getLogger().info("Disabling " + plugin.getFullName()); //todo: event stuff: call PluginDisableEvent
-
-      plugin.setEnabled(false);
+    initPlugin(plugin, manifest, dataFolder, file) {
+        plugin.init(this, this.server, manifest, dataFolder, file);
+        plugin.onLoad();
     }
-  }
 
+    enablePlugin(plugin) {
+        if (plugin instanceof PluginBase && !plugin.isEnabled()) {
+            this.server.getLogger().info("Enabling " + plugin.getFullName());
+
+            plugin.setEnabled(true);
+
+            //todo: event stuff: call PluginEnableEvent
+        }
+    }
+
+    disablePlugin(plugin) {
+        if (plugin instanceof PluginBase && plugin.isEnabled()) {
+            this.server.getLogger().info("Disabling " + plugin.getFullName());
+
+            //todo: event stuff: call PluginDisableEvent
+
+            plugin.setEnabled(false);
+        }
+    }
 }
 
 module.exports = ScriptPluginLoader;

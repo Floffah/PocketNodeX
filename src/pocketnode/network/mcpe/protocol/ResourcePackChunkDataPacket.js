@@ -1,38 +1,33 @@
 const DataPacket = require("./DataPacket");
-
 const ProtocolInfo = require("../Info");
 
 class ResourcePackChunkDataPacket extends DataPacket {
-  constructor() {
-    super();
-    this.initVars();
-  }
+    static getId() {
+        return ProtocolInfo.RESOURCE_PACK_CHUNK_DATA_PACKET;
+    }
 
-  static getId() {
-    return ProtocolInfo.RESOURCE_PACK_CHUNK_DATA_PACKET;
-  }
+    /** @type {string} */
+    packId = "";
+    /** @type {number} */
+    chunkIndex = 0;
+    /** @type {number} */
+    progress = 0;
+    /** @type {string} */
+    data = "";
 
-  initVars() {
-    this.packId = "";
-    this.chunkIndex = 0;
-    this.progress = 0;
-    this.data = "";
-  }
+    _decodePayload() {
+        this.packId = this.readString();
+        this.chunkIndex = this.readLInt();
+        this.progress = this.readLLong();
+        this.data = this.readString();
+    }
 
-  _decodePayload() {
-    this.packId = this.readString();
-    this.chunkIndex = this.readLInt();
-    this.progress = this.readLLong();
-    this.data = this.readString();
-  }
-
-  _encodePayload() {
-    this.writeString(this.packId);
-    this.writeLInt(this.chunkIndex);
-    this.writeLLong(this.progress);
-    this.writeString(this.data);
-  }
-
+    _encodePayload() {
+        this.writeString(this.packId);
+        this.writeLInt(this.chunkIndex);
+        this.writeLLong(this.progress);
+        this.writeString(this.data)
+    }
 }
 
 module.exports = ResourcePackChunkDataPacket;

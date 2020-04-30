@@ -9,93 +9,126 @@
  *  @author PocketNode Team
  *  @link https://pocketnode.me
 */
+
 const Item = require("../item/Item");
 
 const InventoryEventProcessor = require("./InventoryEventProcessor");
 
 class Inventory {
-  static get MAX_STACK() {
-    return 64;
-  }
 
-  /**
-   * @return {number}
-   */
-  getSize() {}
+    static get MAX_STACK() {
+        return 64
+    };
 
-  /**
-   * @return {number}
-   */
-  getMaxStackSize() {}
+    /**
+     * @return {number}
+     */
+    getSize() {
+    };
 
-  setMaxStackSize(size) {}
+    /**
+     * @return {number}
+     */
+    getMaxStackSize() {
+    };
 
-  getName() {}
+    setMaxStackSize(size) {
+    };
 
-  getTitle() {}
+    getName() {
+    };
 
-  /**
-   *
-   * @param index {number}
-   * @return {Item}
-   */
-  getItem(index) {}
+    getTitle() {
+    };
 
-  setItem(item, index, send = true) {}
+    /**
+     *
+     * @param index {number}
+     * @return {Item}
+     */
+    getItem(index) {
+    };
 
-  addItem(...slots) {}
+    setItem(item, index, send = true) {
+    };
 
-  canAddItem(item) {}
+    addItem(...slots) {
+    };
 
-  removeItem(...slots) {}
+    canAddItem(item) {
+    };
 
-  getContents(includeEmpty) {}
+    removeItem(...slots) {
+    };
 
-  setContents(items, send = true) {}
+    getContents(includeEmpty) {
+    };
 
-  dropContents(level, position) {}
+    setContents(items, send = true) {
+    };
 
-  sendContents(target) {}
+    dropContents(level, position) {
+    };
 
-  sendSlot(index, target) {}
+    sendContents(target) {
+    };
 
-  contains(item) {}
+    sendSlot(index, target) {
+    };
 
-  all(item) {}
+    contains(item) {
+    };
 
-  first() {}
+    all(item) {
+    };
 
-  firstEmpty() {}
+    first() {
+    };
 
-  isSlotEmpty(index) {}
+    firstEmpty() {
+    };
 
-  remove(item) {}
+    isSlotEmpty(index) {
+    };
 
-  clear(index, send = true) {}
+    remove(item) {
+    };
 
-  clearAll(send = true) {}
+    clear(index, send = true) {
+    };
 
-  getViewers() {}
+    clearAll(send = true) {
+    };
 
-  onOpen(who) {}
+    getViewers() {
+    };
 
-  open(who) {}
+    onOpen(who) {
+    };
 
-  close(who) {}
+    open(who) {
+    };
 
-  onClose(who) {}
+    close(who) {
+    };
 
-  onSlotChange(index, before, send) {}
+    onClose(who) {
+    };
 
-  slotExists(slot) {}
+    onSlotChange(index, before, send) {
+    };
 
-  /**
-   * @return {InventoryEventProcessor|null}
-   */
-  getEventProcessor() {}
+    slotExists(slot) {
+    };
 
-  setEventProcessor(eventProcessor) {}
+    /**
+     * @return {InventoryEventProcessor|null}
+     */
+    getEventProcessor() {
+    };
 
+    setEventProcessor(eventProcessor) {
+    };
 }
 
 module.exports = Inventory;
