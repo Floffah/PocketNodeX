@@ -3,11 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="fae901bb-40a3-4b37-a599-b130e892034e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pocketnode/plugin/EmptyPlugin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/plugin/EmptyPlugin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pocketnode/plugin/NodePlugin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/plugin/NodePlugin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pocketnode/plugin/Plugin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/plugin/Plugin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pocketnode/plugin/PluginDependencies.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/plugin/PluginDependencies.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pocketnode/plugin/PluginLoadware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/plugin/PluginLoadware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pocketnode/Server.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/Server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pocketnode/plugin/PluginManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/plugin/PluginManager.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -162,6 +160,10 @@
       <workItem from="1588170425360" duration="2493000" />
       <workItem from="1588249276372" duration="199000" />
       <workItem from="1588249493827" duration="7062000" />
+      <workItem from="1588265321871" duration="2778000" />
+      <workItem from="1588272956712" duration="603000" />
+      <workItem from="1588343606457" duration="691000" />
+      <workItem from="1588357062574" duration="4859000" />
     </task>
     <servers />
   </component>
@@ -189,6 +191,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="461" y="169" key="SettingsEditor/0.0.1920.1050/1920.0.1680.1020@0.0.1920.1050" timestamp="1588252556607" />
+    <state x="684" y="184" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588358935702">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="684" y="184" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1050/1920.0.1680.1020@0.0.1920.1050" timestamp="1588358935702" />
     <state x="733" y="398" width="611" height="282" key="org.intellij.images.editor.actions.BackgroundImageDialog" timestamp="1588252554971">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
