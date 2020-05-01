@@ -4,9 +4,10 @@
   "description": "Server software written in Javascript for Minecraft: PE",
   "main": "src/pocketnode/PocketNode.js",
   "scripts": {
-    "test": "node start --test",
-    "docs": "rm -rf ./docs && jsdoc ./ -r -c ./jsdoc.json -d docs",
-    "start": "node start --test"
+    "test": "node start",
+    "docs": "rm -rf ./docs && npx jsdoc ./ -r -c ./jsdoc.json -d docs",
+    "docswin": "rmdir docs /s && npx jsdoc ./ -r -c ./jsdoc.json -d docs",
+    "start": "node start"
   },
   "keywords": [
     "pocketedition",
@@ -18,7 +19,6 @@
   "author": "eDroid",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/collection": "^0.1.5",
     "adm-zip": "^0.4.14",
     "async": "^3.2.0",
     "crypto-js": "^4.0.0",
@@ -27,7 +27,9 @@
     "pocketnode-binarystream": "git+https://github.com/PocketNode/PocketNode-BinaryStream.git",
     "pocketnode-language": "git+https://github.com/PocketNode/PocketNode-Language.git",
     "raknet": "git+https://github.com/PocketNode/RakNet.git",
-    "time-stamp": "^2.0.0"
+    "threads": "^1.4.1",
+    "time-stamp": "^2.0.0",
+    "tiny-worker": "^2.3.0"
   },
   "devDependencies": {
     "jsdoc": "^3.6.4"

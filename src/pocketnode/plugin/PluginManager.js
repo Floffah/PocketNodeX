@@ -4,74 +4,131 @@
     Floffah#6791
  */
 let NodePlugin = require('./NodePlugin'),
-    Collection = require('@discordjs/collection'),
     EmptyPlugin = require('./EmptyPlugin'),
     Path = require('path'),
-    fs = require('fs');
+    fs = require('fs'),
+    async = require('async');
 
 class PluginManager {
-  constructor(server) {
-    this._server = server; //Contains [Boolean, NodePlugin] - the boolean being whether it's disabled or not.
-
-    this.registry = new Map(); //Does not contain that
-
-    this.loadware = new Map();
-  }
-
-  /**
-   * Get a plugin instance by name.
-   * @param {String} name
-   * @returns {EmptyPlugin|Plugin}
-   */
-  getPlugin(name) {
-    let found = this.registry.get(name);
-
-    if (found instanceof NodePlugin) {
-      return found;
-    } else {
-      return new EmptyPlugin();
-    }
-  }
-
-  /**
-   * Adds a class with functions ran for every plugin that is loaded. Must be called before PluginManager.load()
-   * @param {Loadware} loadware
-   */
-  addLoadware(loadware) {
-    this.loadware.add(loadware);
-  }
-
-  /**
-   * Load a plugin.
-   * @param {String} rootpath
-   */
-  loadPlugin(rootpath) {
-    let files = {
-      packagefl: Path.resolve(rootpath, 'package.json'),
-      mainclass: Path.resolve(rootpath, require(files.packagefl).main),
-      deps: Path.resolve(rootpath, 'node_modules')
-    };
-
-    let required = require(files.mainclass);
-
-    try {
-      new required();
-    } catch (err) {
-      this._server.getLogger().error(`Plugin "${require(files.packagefl).name}" does not export a class. Will not enable.`);
+    constructor(server) {
+        this._server = server;
+        this._vars();
     }
 
-    let Plugin;
-  }
+    _vars() {
+        //Contains [Boolean, NodePlugin] - the boolean being whether it's disabled or not.
+        this.registry = new Map();
+        //Does not contain that
+        this.loadware = []
+    }
 
-  disablePlugins() {}
+    /**
+     * Get a plugin instance by name.
+     * @param {String} name
+     * @returns {EmptyPlugin|Plugin}
+     */
+    getPlugin(name) {
+        let found = this.registry.get(name);
 
-  /**
-   * Get the server.
-   * @returns {Server}
-   */
-  getServer() {
-    return this._server;
-  }
+        if (found instanceof NodePlugin) {
+            return found;
+        } else {
+            return new EmptyPlugin();
+        }
+    }
+
+    /**
+     * Adds a class with functions ran for every plugin that is loaded. Must be called before PluginManager.load()
+     * @param {Loadware} loadware
+     */
+    addLoadware(loadware) {
+        this.loadware.push(new loadware());
+    }
+
+    /**
+     * Load a plugin.
+     * @param {String} rootpath
+     * @param {pluginLoadedCallback} done
+     * @returns NodePlugin
+     */
+    async loadPlugin(rootpath, done) {
+        let files = {
+            packagefl: Path.resolve(rootpath, 'package.json'),
+            mainclass: Path.resolve(rootpath, require(Path.resolve(rootpath, 'package.json')).main ? require(Path.resolve(rootpath, 'package.json')).main : "Plugin.js"),
+            deps: Path.resolve(rootpath, '../node_modules')
+        };
+
+        if(!fs.lstatSync(rootpath).isDirectory()) {
+            done();
+            return null;
+        }
+
+        if(require(files.packagefl).name === undefined) {
+            this._server.getLogger().error(`Plugin "${require(files.packagefl).name}" does not have a name in it's package.json file. Will not load.`);
+            done({plugin: require(files.packagefl).name, message: `Plugin "${require(files.packagefl).name}" does not have a name in it's package.json file. Will not load.`});
+            return null;
+        }
+
+        let name = require(files.packagefl).name;
+
+        if(require(files.packagefl).plugin === undefined) {
+            this._server.getLogger().error(`Plugin "${require(files.packagefl).name}" does not have a plugin entry in it's package.json file. Will not load.`);
+            done({plugin: require(files.packagefl).name, message: `Plugin "${require(files.packagefl).name}" does not have a plugin entry in it's package.json file. Will not load.`})
+            return null;
+        }
+
+        if(require(files.packagefl).plugin.name === undefined) {
+            this._server.getLogger().warning(`Plugin "${require(files.packagefl).name}" does not have a name. Using package name.`);
+        } else {
+            name = require(files.packagefl).plugin.name
+        }
+
+        if(!fs.existsSync(files.mainclass)) {
+            this._server.getLogger().error(`Could not find file "${files.mainclass}" in plugin "${require(files.packagefl).name}".`);
+            done({plugin: require(files.packagefl).name, message: `Could not find file "${files.mainclass}" in plugin "${require(files.packagefl).name}".`})
+            return null;
+        }
+
+        let required = require(files.mainclass);
+
+        try {
+            new required();
+        } catch (err) {
+            this._server.getLogger().error(`Plugin "${require(files.packagefl).name}" does not export a class. Will not enable.`);
+        }
+
+        let Plugin;
+
+        if(done) done();
+    }
+
+    loadAndEnableAll(pluginspath) {
+        let unfound = fs.readdirSync(pluginspath);
+        async.forEach(unfound, (pl, done) => {
+            this.loadPlugin(Path.resolve(pluginspath, pl), done);
+        }, (err) => {
+            if(err) {
+                this.getServer().getLogger().error("There was an error while loading plugin " + err.plugin + ". There is likely additional information above.");
+            }
+        });
+    }
+
+    disablePlugins() {
+    }
+
+    /**
+     * Get the server.
+     * @returns {Server}
+     */
+    getServer() {
+        return this._server;
+    }
 }
 
 module.exports = PluginManager;
+
+/**
+ * The callback ran when the plugin has finished loading
+ * @callback pluginLoadedCallback
+ * @param {NodePlugin} pluginInstance
+ */

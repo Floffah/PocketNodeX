@@ -1,3 +1,5 @@
+const Path = require('path');
+
 const ProtocolInfo = require("./network/mcpe/Info");
 const Config = require("./utils/Config");
 
@@ -124,10 +126,8 @@ class Server {
 
     this.getLogger().info("Loading plugins...");
     this._pluginManager = new PluginManager(this);
-
     this._pluginManager.addLoadware(PluginDependencies);
-
-    this._pluginManager.loadAndEnable();
+    this._pluginManager.loadAndEnableAll(Path.resolve(paths.plugins));
 
     this._generatorManager = new GeneratorManager();
     this._generatorManager.addGenerator("flat", FlatGenerator);
