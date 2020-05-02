@@ -14,6 +14,8 @@ const ScriptPluginLoader = require("./plugin/ScriptPluginLoader");
 const PluginManager = require("./plugin/PluginManager");
 const PluginDependencies = require('./plugin/PluginDependencies');
 
+const ThreadManager = require('./thread/ThreadManager');
+
 const Isset = require("./utils/methods/Isset");
 
 const PlayerListPacket = require('./network/mcpe/protocol/PlayerListPacket');
@@ -123,6 +125,8 @@ class Server {
     this._pluginManager.registerLoader(ScriptPluginLoader);
     this._pluginManager.loadPlugins(this.getPluginPath());
     this._pluginManager.enablePlugins(); //load order STARTUP*/
+
+    this._threadManager = new ThreadManager(this);
 
     this.getLogger().info("Loading plugins...");
     this._pluginManager = new PluginManager(this);
@@ -366,6 +370,10 @@ class Server {
    */
   getCommandMap() {
     return this._commandMap;
+  }
+
+  getThreadManager() {
+    return this._threadManager;
   }
 
   getPluginManager() {

@@ -59,35 +59,49 @@ class PluginManager {
         };
 
         if(!fs.lstatSync(rootpath).isDirectory()) {
-            done();
+            if(done) done();
             return null;
         }
 
         if(require(files.packagefl).name === undefined) {
             this._server.getLogger().error(`Plugin "${require(files.packagefl).name}" does not have a name in it's package.json file. Will not load.`);
-            done({plugin: require(files.packagefl).name, message: `Plugin "${require(files.packagefl).name}" does not have a name in it's package.json file. Will not load.`});
+            if(done) done({plugin: require(files.packagefl).name, message: `Plugin "${require(files.packagefl).name}" does not have a name in it's package.json file. Will not load.`});
             return null;
         }
 
+        /**
+         * @type string
+         */
         let name = require(files.packagefl).name;
 
         if(require(files.packagefl).plugin === undefined) {
             this._server.getLogger().error(`Plugin "${require(files.packagefl).name}" does not have a plugin entry in it's package.json file. Will not load.`);
-            done({plugin: require(files.packagefl).name, message: `Plugin "${require(files.packagefl).name}" does not have a plugin entry in it's package.json file. Will not load.`})
+            if(done) done({plugin: require(files.packagefl).name, message: `Plugin "${require(files.packagefl).name}" does not have a plugin entry in it's package.json file. Will not load.`})
             return null;
         }
 
         if(require(files.packagefl).plugin.name === undefined) {
-            this._server.getLogger().warning(`Plugin "${require(files.packagefl).name}" does not have a name. Using package name.`);
+            this._server.getLogger().debug(`Plugin "${require(files.packagefl).name}" does not have a name. Using package name.`);
         } else {
             name = require(files.packagefl).plugin.name
         }
 
         if(!fs.existsSync(files.mainclass)) {
             this._server.getLogger().error(`Could not find file "${files.mainclass}" in plugin "${require(files.packagefl).name}".`);
-            done({plugin: require(files.packagefl).name, message: `Could not find file "${files.mainclass}" in plugin "${require(files.packagefl).name}".`})
+            if(done) done({plugin: require(files.packagefl).name, message: `Could not find file "${files.mainclass}" in plugin "${require(files.packagefl).name}".`})
             return null;
         }
+
+        await async.forEach(this.loadware, (ldw, done) => {
+            try {
+                let loadware = new ldw(this.getServer());
+                loadware.load(rootpath, name);
+            } catch(e) {
+                done();
+            }
+        }, (err) => {
+            if(done) done({plugin: name, error: err, message: 'Could not create new instance of loadware.'});
+        });
 
         let required = require(files.mainclass);
 

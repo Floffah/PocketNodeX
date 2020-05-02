@@ -6,8 +6,12 @@
 const Loadware = require('./PluginLoadware');
 
 class Dependencies extends Loadware {
-  constructor() {
-    super();
+  constructor(server) {
+    super(server);
+  }
+
+  load(rootpath, name) {
+    console.log('hi from plugin deps');
   }
 }
 

@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fae901bb-40a3-4b37-a599-b130e892034e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/pocketnode/thread/ThreadManager.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pocketnode/Server.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/Server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pocketnode/plugin/PluginDependencies.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/plugin/PluginDependencies.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pocketnode/plugin/PluginLoadware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/plugin/PluginLoadware.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pocketnode/plugin/PluginManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/plugin/PluginManager.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,7 +63,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2019.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
@@ -163,7 +164,9 @@
       <workItem from="1588265321871" duration="2778000" />
       <workItem from="1588272956712" duration="603000" />
       <workItem from="1588343606457" duration="691000" />
-      <workItem from="1588357062574" duration="4859000" />
+      <workItem from="1588357062574" duration="5473000" />
+      <workItem from="1588363378630" duration="42000" />
+      <workItem from="1588407616617" duration="8699000" />
     </task>
     <servers />
   </component>
@@ -187,10 +190,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="0" y="0" width="598" height="159" key="GitCloneDialog/0.0.1920.1050/1920.0.1680.1020@0.0.1920.1050" timestamp="1588256339006" />
-    <state x="461" y="169" key="SettingsEditor" timestamp="1588252556607">
+    <state x="462" y="170" key="SettingsEditor" timestamp="1588415252760">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="461" y="169" key="SettingsEditor/0.0.1920.1050/1920.0.1680.1020@0.0.1920.1050" timestamp="1588252556607" />
+    <state x="462" y="170" key="SettingsEditor/0.0.1920.1050/1920.0.1680.1020@0.0.1920.1050" timestamp="1588415252760" />
     <state x="684" y="184" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588358935702">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
