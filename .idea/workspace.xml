@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fae901bb-40a3-4b37-a599-b130e892034e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pocketnode/thread/ThreadManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pocketnode/Server.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/Server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pocketnode/plugin/PluginDependencies.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/plugin/PluginDependencies.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pocketnode/plugin/PluginLoadware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/plugin/PluginLoadware.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pocketnode/plugin/PluginManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/plugin/PluginManager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,7 +161,7 @@
       <workItem from="1588343606457" duration="691000" />
       <workItem from="1588357062574" duration="5473000" />
       <workItem from="1588363378630" duration="42000" />
-      <workItem from="1588407616617" duration="8699000" />
+      <workItem from="1588407616617" duration="8937000" />
     </task>
     <servers />
   </component>

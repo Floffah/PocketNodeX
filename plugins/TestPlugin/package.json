@@ -1,0 +1,6 @@
+{
+  "name": "pocketnodex-testplugin",
+  "main": "src/TestPlugin.js",
+  "plugin": {
+  }
+}

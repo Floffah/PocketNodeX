@@ -1,6 +1,6 @@
 # PocketNode files
 players/
-plugins/
+#plugins/
 worlds/
 resource_packs/
 /pocketnode.json
