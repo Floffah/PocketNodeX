@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class AutomationClientConnectPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.AUTOMATION_CLIENT_CONNECT_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.AUTOMATION_CLIENT_CONNECT_PACKET;
 
     /** @type {string} */
     serverUri;

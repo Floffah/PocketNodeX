@@ -7,13 +7,8 @@ const SkinAnimation = require("../network/mcpe/protocol/types/SkinAnimation");
 const SkinImage = require("../network/mcpe/protocol/types/SkinImage");
 const SkinData = require('../network/mcpe/protocol/types/SkinData');
 const SkinAdapterSingleton = require('../network/mcpe/protocol/types/SkinAdapterSingleton');
-const Chunk = require('../level/format/Chunk');
-
-const Async = require("../utils/Async");
 
 const AddActorPacket = require("../network/mcpe/protocol/AddActorPacket");
-
-// const SerializedImage = require("../utils/SerializedImage");
 
 /* Events */
 const PlayerJoinEvent = require("../event/player/PlayerJoinEvent");
@@ -536,7 +531,7 @@ class Player extends Human {
     sendDataPacket(packet, needACK = false, immediate = false) {
         if (!this.isConnected()) return false;
 
-        if (!this.loggedIn && !packet.canBeSentBeforeLogin()) {
+        if (!this.loggedIn && !packet.allowBeforeLogin) {
             throw new Error("Attempted to send " + packet.getName() + " to " + this.getName() + " before they got logged in.");
         }
 

@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class NetworkStackLatencyPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.NETWORK_STACK_LATENCY_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.NETWORK_STACK_LATENCY_PACKET;
 
     /** @type {number} */
     timestamp = null;

@@ -3,10 +3,10 @@ const ProtocolInfo = require("../Info");
 
 const Vector3 = require("../../../math/Vector3");
 
+"use strict";
+
 class MoveActorAbsolutePacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.MOVE_ACTOR_ABSOLUTE_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.MOVE_ACTOR_ABSOLUTE_PACKET;
 
     static get FLAG_GROUND() {
         return 0x01

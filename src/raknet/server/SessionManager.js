@@ -165,12 +165,12 @@ class SessionManager {
     sendPacket(packet, address, port) {
         packet.encode();
         if (address instanceof Session) {
-            this._bytes.sent += this._socket.sendBuffer(packet.getStream().getBuffer(), address.address, address.port);
+            this._bytes.sent += this._socket.sendBuffer(packet.getBuffer(), address.address, address.port);
         } else {
-            this._bytes.sent += this._socket.sendBuffer(packet.getStream().getBuffer(), address, port);
+            this._bytes.sent += this._socket.sendBuffer(packet.getBuffer(), address, port);
         }
 
-        this.getLogger().debug("Sent "+packet.constructor.name+"("+packet.stream.buffer.toString("hex")+") to "+address+":"+port);
+        // this.getLogger().debug("Sent "+packet.constructor.name+"("+packet.stream.buffer.toString("hex")+") to "+address+":"+port);
         // console.log("Sent "+packet.constructor.name+"("+packet.stream.buffer.toString("hex")+") to "+address+":"+port);
     }
 
@@ -246,7 +246,7 @@ class SessionManager {
             if (packet !== null && (packet = new packet(stream))) {
                 if (packet instanceof OfflineMessage) {
                     packet.decode();
-                    if (packet.validMagic()) {
+                    if (packet.isValid()) {
                         if (!this._offlineMessageHandler.handle(packet, ip, port)) {
                             this.getLogger().debug("Received unhandled offline message " + packet.constructor.name + " from " + session);
                         }

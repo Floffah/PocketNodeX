@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class ChunkRadiusUpdatedPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.CHUNK_RADIUS_UPDATED_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.CHUNK_RADIUS_UPDATED_PACKET;
 
     /** @type {number} */
     radius;

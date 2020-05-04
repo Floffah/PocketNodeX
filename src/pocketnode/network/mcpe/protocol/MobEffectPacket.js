@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class MobEffectPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.MOB_EFFECT_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.MOB_EFFECT_PACKET;
 
     static get EVENT_ADD() {
         return 1

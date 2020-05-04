@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class SetLocalPlayerAsInitializedPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.SET_LOCAL_PLAYER_AS_INITIALIZED_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.SET_LOCAL_PLAYER_AS_INITIALIZED_PACKET;
 
     /** @type {number} */
     entityRuntimeId

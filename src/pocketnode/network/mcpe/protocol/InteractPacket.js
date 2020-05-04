@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class InteractPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.INTERACT_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.INTERACT_PACKET;
 
     /** @type {number} */
     action;

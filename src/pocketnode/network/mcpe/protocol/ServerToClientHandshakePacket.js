@@ -1,17 +1,15 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class ServerToClientHandshakePacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.SERVER_TO_CLIENT_HANDSHAKE_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.SERVER_TO_CLIENT_HANDSHAKE_PACKET;
 
     /** @type {string} */
     jwt;
 
-    canBeSentBeforeLogin() {
-        return true;
-    }
+    allowBeforeLogin = true;
 
     _decodePayload() {
         this.jwt = this.readString();

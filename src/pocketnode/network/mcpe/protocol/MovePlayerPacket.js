@@ -3,10 +3,10 @@ const ProtocolInfo = require("../Info");
 
 const Vector3 = require("../../../math/Vector3");
 
+"use strict";
+
 class MovePlayerPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.MOVE_PLAYER_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.MOVE_PLAYER_PACKET;
 
     static get MODE_NORMAL() {
         return 0

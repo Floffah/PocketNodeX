@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class PlayStatusPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.PLAY_STATUS_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.PLAY_STATUS_PACKET;
 
     /** @type {number} */
     status;
@@ -37,9 +37,7 @@ class PlayStatusPacket extends DataPacket {
         return 6
     }
 
-    canBeSentBeforeLogin() {
-        return true;
-    }
+    allowBeforeLogin = true;
 
     _decodePayload() {
         this.status = this.readInt();

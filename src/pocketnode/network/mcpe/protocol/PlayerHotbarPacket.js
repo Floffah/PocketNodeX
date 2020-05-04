@@ -1,11 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
-class PlayerHotbarPacket extends DataPacket {
+"use strict";
 
-    static getId() {
-        return ProtocolInfo.PLAYER_ACTION_PACKET;
-    }
+class PlayerHotbarPacket extends DataPacket {
+    static NETWORK_ID = ProtocolInfo.PLAYER_HOTBAR_PACKET;
 
     _decodePayload() {
 

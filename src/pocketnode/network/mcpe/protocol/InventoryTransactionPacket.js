@@ -3,10 +3,10 @@ const ProtocolInfo = require("../Info");
 
 const NetworkInventoryAction = require("./types/NetworkInventoryAction");
 
+"use strict";
+
 class InventoryTransactionPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.INVENTORY_TRANSACTION_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.INVENTORY_TRANSACTION_PACKET;
 
     static get TYPE_NORMAL() {
         return 0

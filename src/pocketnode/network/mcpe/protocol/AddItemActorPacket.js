@@ -1,13 +1,13 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 const Item = require("../../../item/Item");
 const Vector3 = require("../../../math/Vector3");
 
 class AddItemActorPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.ADD_ITEM_ACTOR_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.ADD_ITEM_ACTOR_PACKET;
 
     /** @type {number|null} */
     entityUniqueId = null;

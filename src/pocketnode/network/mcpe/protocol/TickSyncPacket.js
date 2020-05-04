@@ -1,12 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
-const Vector3 = require("../../../math/Vector3");
+"use strict";
 
 class TickSyncPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.TICK_SYNC_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.TICK_SYNC_PACKET;
 
     /** @type {number} */
     clientSendTime;

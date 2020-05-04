@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class AnimatePacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.ANIMATE_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.ANIMATE_PACKET;
 
     static get ACTION_SWING_ARM() {
         return 1

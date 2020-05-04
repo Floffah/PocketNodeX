@@ -42,7 +42,7 @@ class PlayerNetworkSessionAdapter {
 
         packet.decode();
 
-        if (!packet.feof() && !packet.mayHaveUnreadBytes()) {
+        if (!packet.feof() && !packet.mayHaveUnreadBytes) {
             let remains = packet.buffer.slice(packet.offset);
             this.server.getLogger().debug("Still " + remains.length + " bytes unread in " + packet.getName() + ": 0x" + remains.toString("hex"));
         }
@@ -92,7 +92,6 @@ class PlayerNetworkSessionAdapter {
     }
 
     handleActorPickRequest(packet) {
-        //CheckTypes([ActorPickRequestPacket, packet]);
         return false; // TODO
     }
 

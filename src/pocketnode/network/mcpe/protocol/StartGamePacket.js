@@ -1,11 +1,12 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
+
 const fs = require('fs');
 
+"use strict";
+
 class StartGamePacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.START_GAME_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.START_GAME_PACKET;
 
     _encodePayload() {
         // int64 = varLong

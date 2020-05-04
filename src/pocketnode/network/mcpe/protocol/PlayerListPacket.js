@@ -3,10 +3,10 @@ const ProtocolInfo = require("../Info");
 
 const PlayerListEntry = require('./types/PlayerListEntry');
 
+"use strict";
+
 class PlayerListPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.PLAYER_LIST_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.PLAYER_LIST_PACKET;
 
     static TYPE_ADD = 0;
     static TYPE_REMOVE = 1;

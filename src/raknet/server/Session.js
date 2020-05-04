@@ -31,6 +31,10 @@ class Session {
     static get STATE_DISCONNECTING(){return 2}
     static get STATE_DISCONNECTED(){return 3}
 
+    get WINDOW_SIZE(){
+        return 2048;
+    }
+
     get MAX_SPLIT_SIZE(){
         return 128;
     }
@@ -39,57 +43,71 @@ class Session {
         return 4;
     }
 
-    initVars(){
-        this.sessionManager = {};
+    messageIndex = 0;
+    channelIndex = [];
 
-        this.address = "";
-        this.port = -1;
-        this.state = Session.STATE_CONNECTING;
-        this.mtuSize = -1;
-        this.clientId = -1;
+    sessionManager;
 
-        this.lastSequenceNumber = -1;
-        this.currentSequenceNumber = 0;
+    address;
+    port;
+    state = Session.STATE_DISCONNECTED;
+    mtuSize = 548;
+    clientId;
+    splitId;
 
-        this.messageIndex = 0;
-        this.channelIndex = [];
+    lastSeqNumber = -1;
+    sendSeqNumber = 0;
 
-        this.splitId = 0;
+    lastUpdate = 0;
+    startTime = 0;
+    
+    packetToSend = [];
 
-        this.lastUpdate = 0;
-        this.disconnectionTime = -1;
+    isActive = false;
 
-        this.isActive = false;
+    ACKQueue = new ACKQueue();
+    NACKQueue = new NACKQueue();
 
-        this.packetsToSend = [];
+    recoveryQueue = new RecoveryQueue();
 
-        this._sendQueue = {};
-        this.recoveryQueue = new RecoveryQueue();
-        this.ACKQueue = new ACKQueue();
-        this.NACKQueue = new NACKQueue();
-        this.splitQueue = new SplitQueue();
-        this.packetBatches = new PacketBatchHolder();
+    splitQueue = new SplitQueue();  // splitPackets
 
-        this.lastPingMeasure = 1;
-    }
+    needACK = new Map();
+
+    sendQueue = new Datagram();
+
+    windowStart = null;
+
+    receiveWindow = new Map();
+    windowEnd = null;
+
+    reliableWindowStart = null;
+    reliableWindowEnd = null;
+    reliableWindow = new Map();
+    lastReliableIndex = -1;
+
+    packetBatches = new PacketBatchHolder();  // why this one is needed?
 
     constructor(sessionManager, address, port, clientId, mtuSize){
-        this.initVars();
         this.sessionManager = sessionManager;
-
         this.address = address;
         this.port = port;
+        this.sendQueue = new Datagram();
+        this.lastUpdate = Date.now();
+        this.startTime = Date.now();
+        this.windowStart = -1;
+        this.windowEnd = this.WINDOW_SIZE;
+
+        // Optional
         this.clientId = clientId;
         this.mtuSize = mtuSize;
 
-        this.setSendQueue();
+        this.reliableWindowStart = 0;
+        this.reliableWindowEnd = this.WINDOW_SIZE;
 
-        this.lastUpdate = Date.now();
-    }
-
-    setSendQueue(){
-        this._sendQueue = new Datagram();
-        this._sendQueue.needsBAndAs = true;
+        for (let i in Array(32).keys()) {
+            this.channelIndex[i] = 0;
+        }
     }
 
     getAddress(){
@@ -98,14 +116,6 @@ class Session {
 
     getPort(){
         return this.port;
-    }
-
-    getClientId(){
-        return this.clientId;
-    }
-
-    isConnecting(){
-        return this.state === Session.STATE_CONNECTING;
     }
 
     isConnected(){
@@ -123,49 +133,73 @@ class Session {
             this.disconnect("timeout");
             return;
         }
-
-        if(this.state === Session.STATE_DISCONNECTING && (
-            (this.ACKQueue.isEmpty() && this.NACKQueue.isEmpty() && this.packetsToSend.length === 0 && this.recoveryQueue.isEmpty()) &&
-            this.disconnectionTime + 10 < time)
-        ){
-            this.close();
-            return;
-        }
-
         this.isActive = false;
 
-        if(!this.ACKQueue.isEmpty()){
+        if(this.ACKQueue.size > 0){
             let pk = new ACK();
             pk.packets = this.ACKQueue.getAll();
             this.sendPacket(pk);
             this.ACKQueue.clear();
         }
 
-        if(!this.NACKQueue.isEmpty()){
+        if(this.NACKQueue.size > 0){
             let pk = new NACK();
             pk.packets = this.NACKQueue.getAll();
             this.sendPacket(pk);
             this.NACKQueue.clear();
         }
 
-        if(this.packetsToSend.length > 0){
+        if(this.packetToSend.length > 0){
             let limit = 16;
-            for(let k in this.packetsToSend){
-                this.sendDatagram(this.packetsToSend[k]);
-                delete this.packetsToSend[k];
+            for(let k in this.packetToSend){
+                if (this.packetToSend.hasOwnProperty(k)) {
+                    let pk = this.packetToSend[k];
+                    pk.sendTime = time;
+                    this.recoveryQueue.addRecoveryFor(pk.sequenceNumber);
+                    delete this.packetToSend[k];
+                    this.sendDatagram(this.packetToSend[k]);
+                }
 
                 if(--limit <= 0){
                     break;
                 }
             }
+
+            if (this.packetToSend.length > this.WINDOW_SIZE) {
+                this.packetToSend = [];
+            }
         }
 
-        if(this.lastPingTime + 5000 < time){
-            this.sendPing();
-            this.lastPingTime = time;
+        if (this.needACK.size > 0) {
+            for (let [identifierACK, indexes] of this.needACK) {
+                if (indexes.length === 0){
+                    this.needACK.delete(identifierACK);
+                    // Notify ACK
+                }
+            }
         }
 
-        this.sendQueue();
+        for (let seq in this.recoveryQueue.keys()) {
+            if (this.recoveryQueue.hasOwnProperty(seq)) {
+                let pk = this.recoveryQueue.get(seq);
+                if (!pk.sendTime) {
+                    this.packetToSend.push(pk);
+                    this.recoveryQueue.delete(seq);
+                }
+
+                if (pk.sendTime < time - 8) {
+                    this.packetToSend.push(pk);
+                    this.recoveryQueue.delete(seq);
+                }
+            }
+        }
+
+        // if(this.lastPingTime + 5000 < time){
+        //     this.sendPing();
+        //     this.lastPingTime = time;
+        // }
+
+        this.sendTheQueue();
     }
 
 
@@ -189,51 +223,81 @@ class Session {
         this.isActive = true;
         this.lastUpdate = Date.now();
 
-        if(packet instanceof Datagram || packet instanceof ACK || packet instanceof NACK){
-            // this.sessionManager.getLogger().debug("Got " + protocol.constructor.name + "(" + protocol.stream.buffer.toString("hex") + ") from " + this);
-        }
-
         if(packet instanceof Datagram){
             packet.decode();
 
-            let diff = packet.sequenceNumber - this.lastSequenceNumber;
+            let diff = packet.sequenceNumber - this.lastSeqNumber;
 
-            if(!this.NACKQueue.isEmpty()){
+            if(this.NACKQueue.has(packet.sequenceNumber)){
                 this.NACKQueue.remove(packet.sequenceNumber);
-                if(diff !== 1){
-                    for(let i = this.lastSequenceNumber + 1; i < packet.sequenceNumber; i++){
-                        this.NACKQueue.add(i);
-                    }
-                }
             }
 
             this.ACKQueue.add(packet.sequenceNumber);
+            // receive window
+
+            if(diff !== 1){
+                for(let i = this.lastSeqNumber + 1; i < packet.sequenceNumber; i++){
+                    // receive window
+                    this.NACKQueue.add(i);
+                }
+            }
 
             if(diff >= 1){
-                this.lastSequenceNumber = packet.sequenceNumber;
+                this.lastSeqNumber = packet.sequenceNumber;
+                this.windowStart += diff;
+                this.windowEnd += diff;
             }
 
             packet.packets.forEach(pk => this.handleEncapsulatedPacket(pk));
-        }else{
-            if(packet instanceof ACK){
-                packet.decode();
-                this.recoveryQueue.recover(packet.packets).forEach(datagram => {
-                    this.recoveryQueue.remove(datagram.sequenceNumber);
-                });
-            }else if(packet instanceof NACK){
-                packet.decode();
-                this.recoveryQueue.recover(packet.packets).forEach(datagram => {
-                    this.packetsToSend.push(datagram);
-                    this.recoveryQueue.remove(datagram.sequenceNumber);
-                });
-            }
+        }else if (packet instanceof ACK) {
+            packet.decode();
+            this.recoveryQueue.recover(packet.packets).forEach(datagram => {
+                this.recoveryQueue.remove(datagram.sequenceNumber);
+            });
+        }else if (packet instanceof NACK) {
+            packet.decode();
+            this.recoveryQueue.recover(packet.packets).forEach(datagram => {
+                this.packetToSend.push(datagram);
+                this.recoveryQueue.remove(datagram.sequenceNumber);
+            });
         }
     }
 
     handleEncapsulatedPacket(packet){
-        if(!(packet instanceof EncapsulatedPacket)) throw new TypeError("Expecting EncapsulatedPacket, got "+(packet.constructor.name ? packet.constructor.name : packet));
+        if (packet.messageIndex === null){
+            this.handleEncapsulatedPacketRoute(packet);
+        }else {
+            if (packet.messageIndex < this.reliableWindowStart || packet.messageIndex > this.reliableWindowEnd) {
+                return;
+            }
 
-        //this.sessionManager.getLogger().debug("Handling EncapsulatedPacket("+protocol.getBuffer().toString("hex")+")["+protocol.getBuffer().length+"] from "+this);
+            if (packet.messageIndex - this.lastReliableIndex === 1) {
+                this.lastReliableIndex += 1;
+                this.reliableWindowStart += 1;
+                this.reliableWindowEnd += 1;
+                this.handleEncapsulatedPacketRoute(packet);
+
+                if (this.reliableWindow.size > 0) {
+                    Object.entries(this.reliableWindow).sort();
+                    for (let [index, pk] of this.reliableWindow) {
+                        if (index - this.lastReliableIndex !== 1) {
+                            break;
+                        }
+                        this.lastReliableIndex += 1;
+                        this.reliableWindowStart += 1;
+                        this.reliableWindowEnd += 1;
+                        this.handleEncapsulatedPacketRoute(packet);
+                        this.reliableWindow.delete(index);
+                    }
+                }
+            }
+        }
+    }
+
+    handleEncapsulatedPacketRoute(packet) {
+        if (this.sessionManager === null) {
+            return;
+        }
 
         if(packet.hasSplit){
             if(this.isConnected()) this.handleSplitPacket(packet);
@@ -311,9 +375,7 @@ class Session {
     }
 
     handleSplitPacket(packet){
-        if(!(packet instanceof EncapsulatedPacket)) throw new TypeError("Expecting EncapsulatedPacket, got "+(packet.constructor.name ? packet.constructor.name : packet));
-
-        if(packet.splitCount >= this.MAX_SPLIT_SIZE || packet.splitIndex >= this.MAX_SPLIT_SIZE || packet.splitIndex < 0){
+        if(packet.splitCount >= this.MAX_SPLIT_SIZE || packet.splitIndex < 0){
             return;
         }
 
@@ -350,7 +412,7 @@ class Session {
         if(datagram.sequenceNumber !== null){
             this.recoveryQueue.remove(datagram.sequenceNumber);
         }
-        datagram.sequenceNumber = this.currentSequenceNumber++;
+        datagram.sequenceNumber = this.sendSeqNumber++;
         datagram.sendTime = Date.now();
         this.recoveryQueue.addRecoveryFor(datagram);
         this.sendPacket(datagram);
@@ -380,20 +442,25 @@ class Session {
     }
 
     addEncapsulatedToQueue(packet, flags){
-        if(!(packet instanceof EncapsulatedPacket)) throw new TypeError("Expecting EncapsulatedPacket, got "+(packet.constructor.name ? packet.constructor.name : packet));
-
-        if(packet.isReliable()){
-            packet.messageIndex = this.messageIndex++;
+        packet.needACK = (flags & RakNet.FLAG_NEED_ACK);
+        if (packet.needACK > 0) {
+            // TODO: need ack
         }
 
-        if(packet.isSequenced()){
-            packet.orderIndex = this.channelIndex[packet.orderChannel]++;
+        let reliability = packet.reliability;
+        if (reliability === 2 || reliability === 3 || reliability === 4 || reliability === 6 || reliability === 7) {
+            this.messageIndex += 1;
+            packet.messageIndex = this.messageIndex;
+            if (reliability === 3) {
+                this.channelIndex[packet.orderIndex] += 1;
+                packet.orderIndex = this.channelIndex[packet.orderChannel];
+            }
         }
 
         let maxSize = this.mtuSize - 60;
-
         if(packet.getBuffer().length > maxSize){
-            let splitId = ++this.splitId % 65536;
+            this.splitId += 1;
+            let splitId = this.splitId % 65536;
             let splitIndex = 0;
             let splitCount = Math.ceil(packet.getBuffer().length / maxSize);
             while(!packet.getStream().feof()){
@@ -405,15 +472,17 @@ class Session {
                 pk.reliability = packet.reliability;
                 pk.splitIndex = splitIndex;
                 pk.stream = stream;
-
                 if (splitIndex > 0) {
-                    pk.messageIndex = this.messageIndex++;
+                    this.messageIndex += 1;
+                    pk.messageIndex = this.messageIndex;
                 } else {
                     pk.messageIndex = packet.messageIndex;
                 }
 
-                pk.orderChannel = packet.orderChannel;
-                pk.orderIndex = packet.orderIndex;
+                if (pk.reliability === 3) {
+                    pk.orderChannel = packet.orderChannel;
+                    pk.orderIndex = packet.orderIndex;
+                }
 
                 this.addToQueue(pk, flags | RakNet.PRIORITY_IMMEDIATE);
                 splitIndex++;
@@ -424,29 +493,47 @@ class Session {
     }
 
     addToQueue(pk, flags = RakNet.PRIORITY_NORMAL){
-        let priority = flags & 0x07;
+        let priority = flags & 0b0000111;
+        // TODO
+        // if (pk.needACK && pk.messageIndex !== null) {
+        //     this.sendQueue.packets.push(pk);
+        // }
 
-        let length = this._sendQueue.getLength();
-        if((length + pk.getLength()) > (this.mtuSize - 36)){
-            this.sendQueue();
+        // Skip queues
+        if (priority === RakNet.PRIORITY_IMMEDIATE) {
+            let packet = new Datagram();
+            this.sendSeqNumber += 1;
+            packet.sequenceNumber = this.sendSeqNumber;
+            if (pk.needACK) {
+                packet.packets.push(Object.assign({}, pk));
+                pk.needACK = false;
+            }else{
+                packet.packets.push(pk.toBinary());
+            }
+            this.sendPacket(packet);
+            packet.sendTime = Date.now();
+            this.recoveryQueue.addRecoveryFor(packet);
+        }
+
+        let length = this.sendQueue.getLength();
+        if((length + pk.getLength()) > this.mtuSize){
+            this.sendTheQueue();
         }
 
         if(pk.needACK){
-            this._sendQueue.packets.push(Object.assign(new EncapsulatedPacket(), pk));
+            this.sendQueue.packets.push(Object.assign({}, pk));
             pk.needACK = false;
         }else{
-            this._sendQueue.packets.push(pk.toBinary());
-        }
-
-        if(priority === RakNet.PRIORITY_IMMEDIATE){
-            this.sendQueue();
+            this.sendQueue.packets.push(pk.toBinary());
         }
     }
 
-    sendQueue(){
-        if(this._sendQueue.packets.length > 0){
-            this.sendDatagram(this._sendQueue);
-            this.setSendQueue();
+    sendTheQueue(){
+        if (!(typeof this.sendQueue.packets === "undefined")) {
+            if (this.sendQueue.packets.length > 0) {
+                this.sendDatagram(this.sendQueue);
+                this.sendQueue = new Datagram();
+            }
         }
     }
 

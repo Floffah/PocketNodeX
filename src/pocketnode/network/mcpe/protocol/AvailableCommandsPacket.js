@@ -5,10 +5,10 @@ const CommandEnum = require("./types/CommandEnum");
 const CommandData = require("./types/CommandData");
 const CommandParameter = require("./types/CommandParameter");
 
+"use strict";
+
 class AvailableCommandsPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.AVAILABLE_COMMANDS_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.AVAILABLE_COMMANDS_PACKET;
 
     /**
      * This flag is set on all types EXCEPT the POSTFIX type. Not completely sure what this is for, but it is required

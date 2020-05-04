@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class MobEquipmentPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.MOB_EQUIPMENT_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.MOB_EQUIPMENT_PACKET;
 
     /** @type {number} */
     entityRuntimeId;

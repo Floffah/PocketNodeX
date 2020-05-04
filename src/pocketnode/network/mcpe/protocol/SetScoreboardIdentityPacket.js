@@ -1,11 +1,12 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
+
 const ScoreboardEntry = require("./types/ScoreboardIdentityPacketEntry");
 
+"use strict";
+
 class SetScoreboardIdentityPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.SET_SCOREBOARD_IDENTITY_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.SET_SCOREBOARD_IDENTITY_PACKET;
 
     static TYPE_REGISTER_IDENTITY() {
         return 0;
@@ -15,7 +16,7 @@ class SetScoreboardIdentityPacket extends DataPacket {
         return 1;
     }
 
-    /** @type {any} */
+    /** @type {ScoreboardEntry[]} */
     entries = [];
     /** @type {number} */
     type = 0;
@@ -27,7 +28,7 @@ class SetScoreboardIdentityPacket extends DataPacket {
             let entry = new ScoreboardEntry();
             entry.scoreboardId = this.readVarLong();
             if (this.type === SetScoreboardIdentityPacket.TYPE_REGISTER_IDENTITY()) {
-                entry.entityUniqueId = this.getEntityUniqueId();
+                entry.entityUniqueId = this.readEntityUniqueId();
             }
             this.entries.push(entry);
         }

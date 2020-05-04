@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class StructureBlockUpdatePacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.STRUCTURE_BLOCK_UPDATE_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.STRUCTURE_BLOCK_UPDATE_PACKET;
 
     _decodePayload() {
         //TODO

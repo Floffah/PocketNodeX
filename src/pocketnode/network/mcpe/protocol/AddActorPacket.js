@@ -6,10 +6,10 @@ const Attribute = require("../../../entity/Attribute");
 const EntityLink = require('./types/EntityLink');
 const Vector3 = require("../../../math/Vector3");
 
+"use strict";
+
 class AddActorPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.ADD_ACTOR_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.ADD_ACTOR_PACKET;
 
     static LEGACY_ID_MAP_BC = [
         EntityIds.NPC = "minecraft:npc",

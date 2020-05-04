@@ -1,13 +1,8 @@
 class ScoreboardIdentityPacketEntry {
-
-    constructor() {
-        this.initVars();
-    }
-
-    initVars() {
-        this.scoreboardId = 0;
-        this.entityUniqueId = null;
-    }
+    /** @type {number} */
+    scoreboardId;
+    /** @type {null|number} */
+    entityUniqueId;
 }
 
 module.exports = ScoreboardIdentityPacketEntry;

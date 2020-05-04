@@ -1,21 +1,13 @@
-const Datagram = require("../../protocol/Datagram");
-
 class RecoveryQueue extends Map {
     addRecoveryFor(datagram) {
-        CheckTypes([Datagram, datagram]);
-
         this.set(datagram.sequenceNumber, datagram);
     }
 
     isRecoverable(seqNumber) {
-        CheckTypes([Number, seqNumber]);
-
         return this.has(seqNumber);
     }
 
     recover(sequenceNumbers) {
-        CheckTypes([Array, sequenceNumbers]);
-
         let datagrams = [];
 
         sequenceNumbers.forEach(seqNumber => {

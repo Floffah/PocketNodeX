@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class AddEntityPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.ADD_ENTITY_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.ADD_ENTITY_PACKET;
 
     /** @type {number} */
     uvarint1d;

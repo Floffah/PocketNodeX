@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class AdventureSettingsPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.ADVENTURE_SETTINGS_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.ADVENTURE_SETTINGS_PACKET;
 
     static get PERMISSION_NORMAL() {
         return 0

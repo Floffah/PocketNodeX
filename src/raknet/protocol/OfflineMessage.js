@@ -15,7 +15,7 @@ class OfflineMessage extends Packet {
         this.getStream().append(Buffer.from(RakNet.MAGIC, "binary"));
     }
 
-    validMagic() {
+    isValid() {
         return Buffer.from(this.magic).equals(Buffer.from(RakNet.MAGIC, "binary"));
     }
 }

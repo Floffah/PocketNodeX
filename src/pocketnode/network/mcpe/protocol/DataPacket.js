@@ -1,35 +1,29 @@
 const BinaryStream = require("../NetworkBinaryStream");
-const Vector3 = require("../../../math/Vector3");
 
-const Attribute = require("../../../entity/Attribute");
+"use strict";
 
 class DataPacket extends BinaryStream {
+    static PID = 0x00;
 
     /** @type {boolean} */
     isEncoded = false;
 
-    static getId() {
-        return 0;
-    }
+    allowBeforeLogin = false;
+    mayHaveUnreadBytes = false;
+    allowBatching = true;
 
+    /**
+     * @returns {number} - returns packet ID.
+     */
     getId() {
-        return this.constructor.getId();
+        return this.constructor.NETWORK_ID;
     }
 
+    /**
+     * @returns {string} - returns packet name.
+     */
     getName() {
         return this.constructor.name;
-    }
-
-    canBeBatched() {
-        return true;
-    }
-
-    canBeSentBeforeLogin() {
-        return false;
-    }
-
-    mayHaveUnreadBytes() {
-        return false;
     }
 
     clean() {
@@ -43,6 +37,7 @@ class DataPacket extends BinaryStream {
         this._decodePayload();
     }
 
+    /** @private */
     _decodeHeader() {
         let pid = this.readUnsignedVarInt();
         if (pid !== this.getId()) {
@@ -50,8 +45,8 @@ class DataPacket extends BinaryStream {
         }
     }
 
-    _decodePayload() {
-    }
+    /** @protected */
+    _decodePayload() {}
 
     encode() {
         this.reset();
@@ -60,18 +55,19 @@ class DataPacket extends BinaryStream {
         this.isEncoded = true;
     }
 
+    /** @private */
     _encodeHeader() {
         this.writeUnsignedVarInt(this.getId());
     }
 
-    _encodePayload() {
-    }
+    /** @protected */
+    _encodePayload() {}
 
     getBuffer() {
         return this.buffer;
     }
 
-    handle(session) {
+    handle(_session) {
         return false;
     }
 }

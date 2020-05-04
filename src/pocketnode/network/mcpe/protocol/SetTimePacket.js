@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class SetTimePacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.SET_TIME_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.SET_TIME_PACKET;
 
     /** @type {number} */
     time = 0;

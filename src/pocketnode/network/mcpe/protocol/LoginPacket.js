@@ -2,17 +2,16 @@ const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
 const BinaryStream = require("../NetworkBinaryStream");
-
 const Utils = require("../../../utils/Utils");
 
+"use strict";
+
 class LoginPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.LOGIN_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.LOGIN_PACKET;
 
     /** @type {string} */
     username = '';
-    /** @type {number} */
+    /** @type {number|undefined} */
     protocol;
     /** @type {string} */
     clientUUID;
@@ -31,13 +30,8 @@ class LoginPacket extends DataPacket {
     /** @type {any} */
     clientData;
 
-    canBeSentBeforeLogin() {
-        return true;
-    }
-
-    mayHaveUnreadBytes() {
-        return this.protocol !== null && this.protocol !== ProtocolInfo.PROTOCOL;
-    }
+    allowBeforeLogin = true;
+    mayHaveUnreadBytes = this.protocol !== undefined && this.protocol !== ProtocolInfo.PROTOCOL;
 
     _decodePayload() {
         this.protocol = this.readInt();
@@ -45,13 +39,7 @@ class LoginPacket extends DataPacket {
         try {
             this.decodeConnectionRequest();
         } catch (e) {
-
-            if (this.protocol === ProtocolInfo.PROTOCOL) {
-                console.log("LoginPacket => same protocol: [CLIENT: => " + this.protocol + " / SERVER => " + ProtocolInfo.PROTOCOL + " ]");
-                throw e;
-            }
-
-            console.log(this.constructor.name + " was thrown while decoding connection request in login (protocol version " + (this.protocol));
+            throw new Error(`${this.constructor.name} was thrown while decoding connection request in login (protocol version ${this.protocol})`);
         }
     }
 

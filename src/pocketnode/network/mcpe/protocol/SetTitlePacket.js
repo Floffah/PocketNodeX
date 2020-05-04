@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
-const MinecraftInfo = require("../Info");
+const ProtocolInfo = require("../Info");
+
+"use strict";
 
 class SetTitlePacket extends DataPacket {
-    static getId() {
-        return MinecraftInfo.SET_TITLE_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.SET_TITLE_PACKET;
 
     static get TYPE_CLEAR_TITLE() {
         return 0

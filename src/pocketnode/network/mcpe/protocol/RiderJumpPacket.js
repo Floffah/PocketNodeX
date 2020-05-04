@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class RiderJumpPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.RIDER_JUMP_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.RIDER_JUMP_PACKET;
 
     /** @type {number} */
     jumpStrenght;  // percentage

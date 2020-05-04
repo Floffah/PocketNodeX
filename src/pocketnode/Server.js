@@ -3,7 +3,6 @@ const Path = require('path');
 const ProtocolInfo = require("./network/mcpe/Info");
 const Config = require("./utils/Config");
 
-const UUID = require('./utils/UUID');
 const SkinAdapterSingleton = require('./network/mcpe/protocol/types/SkinAdapterSingleton');
 /* Old plugin stuff
 const PluginManager = require("./plugin/PluginManager");
@@ -16,8 +15,6 @@ const PluginDependencies = require('./plugin/PluginDependencies');
 
 const ThreadManager = require('./thread/ThreadManager');
 
-const Isset = require("./utils/methods/Isset");
-
 const PlayerListPacket = require('./network/mcpe/protocol/PlayerListPacket');
 const PlayerListEntry = require('./network/mcpe/protocol/types/PlayerListEntry');
 
@@ -27,17 +24,10 @@ const RuntimeBlockMapping = require("./network/mcpe/protocol/types/RuntimeBlockM
 
 const CommandMap = require("./command/CommandMap");
 const ConsoleCommandReader = require("./command/ConsoleCommandReader");
-const HelpCommand = require("./command/defaults/HelpCommand");
-const StopCommand = require("./command/defaults/StopCommand");
-const VersionCommand = require("./command/defaults/VersionCommand");
-const PluginsCommand = require("./command/defaults/PluginsCommand");
-const TitleCommand = require("./command/defaults/TitleCommand");
 
 const Player = require("./player/Player");
 const PlayerList = require("./player/PlayerList");
 const Entity = require("./entity/Entity");
-
-const localizationManager = require("./localization/localizationManager");
 
 const ResourcePackManager = require("./resourcepacks/ResourcePackManager");
 
@@ -46,7 +36,6 @@ const GeneratorManager = require("./level/generator/GeneratorManager");
 const FlatGenerator = require("./level/generator/FlatGenerator");
 
 const EventHandler = require("./event/EventHandler");
-const TestEvent = require("./event/TestEvent");
 
 const SFS = require("./utils/SimpleFileSystem");
 
@@ -54,9 +43,10 @@ class Server {
 
   /** @type {Server | null} */
   static _instance = null;
-
   constructor(pocketnode, localizationManager, logger, paths) {
     this.initVars();
+
+        // this._scheduler
 
     if (Server._instance) {
       throw Error('Server is a singleton. Please use `getInstance` method instead');

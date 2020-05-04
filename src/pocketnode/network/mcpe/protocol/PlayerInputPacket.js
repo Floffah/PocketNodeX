@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class PlayerInputPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.PLAYER_INPUT_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.PLAYER_INPUT_PACKET;
 
     /** @type {number} */
     motionX;

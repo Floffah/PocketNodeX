@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class LevelEventPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.LEVEL_EVENT_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.LEVEL_EVENT_PACKET;
 
     static get EVENT_SOUND_CLICK() {
         return 1000

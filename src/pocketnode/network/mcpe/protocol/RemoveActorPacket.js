@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class RemoveActorPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.REMOVE_ACTOR_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.REMOVE_ACTOR_PACKET;
 
     /** @type {number} */
     entityUniqueId

@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class LevelChunkPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.LEVEL_CHUNK_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.LEVEL_CHUNK_PACKET;
 
     /** @type {number} */
     chunkX = 0;

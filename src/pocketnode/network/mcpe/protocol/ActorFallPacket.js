@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class ActorFallPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.ACTOR_FALL_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.ACTOR_FALL_PACKET;
 
     /** @type {number} */
     entityRuntimeId;

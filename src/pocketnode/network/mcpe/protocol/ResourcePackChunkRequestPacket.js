@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class ResourcePackChunkRequestPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.RESOURCE_PACK_CHUNK_REQUEST_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.RESOURCE_PACK_CHUNK_REQUEST_PACKET;
 
     /** @type {string} */
     packId;

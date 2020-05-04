@@ -1,14 +1,12 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
-class DisconnectPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.DISCONNECT_PACKET;
-    }
+"use strict";
 
-    canBeSentBeforeLogin() {
-        return true;
-    }
+class DisconnectPacket extends DataPacket {
+    static NETWORK_ID = ProtocolInfo.DISCONNECT_PACKET;
+
+    allowBeforeLogin = true;
 
     /** @type {boolean} */
     hideDisconnectionScreen = false;

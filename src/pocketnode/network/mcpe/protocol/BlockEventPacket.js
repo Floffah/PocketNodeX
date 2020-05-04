@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class BlockEventPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.BLOCK_EVENT_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.BLOCK_EVENT_PACKET;
 
     /** @type {number} */
     x;

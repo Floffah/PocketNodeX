@@ -4,10 +4,10 @@ const ProtocolInfo = require("../Info");
 const SkinAnimation = require("../../../utils/SkinAnimation");
 const Skin = require("../../../entity/Skin");
 
+"use strict";
+
 class PlayerSkinPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.PLAYER_SKIN_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.PLAYER_SKIN_PACKET;
 
     // TODO: type
 

@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class UpdateSoftEnumPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.UPDATE_SOFT_ENUM_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.UPDATE_SOFT_ENUM_PACKET;
 
     /** @type {string} */
     enumName = "";

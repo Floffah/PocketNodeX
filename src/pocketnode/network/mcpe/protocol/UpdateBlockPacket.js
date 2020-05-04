@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class UpdateBlockPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.UPDATE_BLOCK_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.UPDATE_BLOCK_PACKET;
 
     static get FLAG_NONE() {
         return 0b0000

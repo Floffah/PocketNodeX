@@ -2,10 +2,10 @@ const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 const Vector3 = require("../../../math/Vector3");
 
+"use strict";
+
 class LevelSoundEventPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.LEVEL_SOUND_EVENT_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.LEVEL_SOUND_EVENT_PACKET;
 
     static get SOUND_ITEM_USE_ON() {
         return 0

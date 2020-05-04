@@ -60,10 +60,13 @@ const AdventureSettingsPacket = require("./AdventureSettingsPacket");
 const InventoryTransactionPacket = require("./InventoryTransactionPacket");
 const MobEquipmentPacket = require("./MobEquipmentPacket");
 const MobArmorEquipmentPacket = require("./MobArmorEquipmentPacket");
+const ClientCacheStatusPacket = require("./ClientCacheStatusPacket");
 const AvailableActorIdentifiersPacket = require("./AvailableActorIdentifiersPacket");
 const ActorFallPacket = require("./ActorFallPacket");
 const LevelChunkPacket = require("./LevelChunkPacket");
 const ActorPickRequestPacket = require("./ActorPickRequestPacket");
+
+"use strict";
 
 class PacketPool {
 
@@ -73,11 +76,11 @@ class PacketPool {
     }
 
     registerPacket(packet) {
-        this.packetPool.set(packet.getId(), packet);
+        this.packetPool.set(packet.NETWORK_ID, packet);
     }
 
     getPacket(id) {
-        return this.packetPool.has(id) ? new (this.packetPool.get(id))() : null;
+        return this.packetPool.has(id) ? new (this.packetPool.get(id))() : undefined;
     }
 
     isRegistered(id) {
@@ -128,6 +131,7 @@ class PacketPool {
         this.registerPacket(ResourcePackChunkDataPacket);
         this.registerPacket(ResourcePackChunkResponsePacket);
         this.registerPacket(ResourcePackDataInfoPacket);
+        this.registerPacket(ClientCacheStatusPacket);
 
         this.registerPacket(LevelSoundEventPacket);
         this.registerPacket(PlayerActionPacket);

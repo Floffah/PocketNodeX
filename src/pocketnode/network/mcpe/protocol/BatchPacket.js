@@ -2,26 +2,18 @@ const DataPacket = require("./DataPacket");
 const BinaryStream = require("../NetworkBinaryStream");
 const Zlib = require("zlib");
 
-class BatchPacket extends DataPacket {
+"use strict";
 
-    static getId() {
-        return 0xFE;
-    }
+class BatchPacket extends DataPacket {
+    static NETWORK_ID = 0xFE;
 
     /** @type {BinaryStream} */
     payload = new BinaryStream();
     /** @type {number} */
     _compressionLevel = 7;
 
-    /** @return {boolean} */
-    canBeBatched() {
-        return false;
-    }
-
-    /** @return {boolean} */
-    canBeSentBeforeLogin() {
-        return true;
-    }
+    allowBatching = false;
+    allowBeforeLogin = true;
 
     _decodeHeader() {
         let pid = this.readByte();
@@ -50,8 +42,8 @@ class BatchPacket extends DataPacket {
 
     /** @param packet {DataPacket} */
     addPacket(packet) {
-        if (!packet.canBeBatched()) {
-            throw new Error(packet.getName() + " can't be batched");
+        if (!packet.allowBatching) {
+            throw new Error(`${packet.getName()} can't be batched!`);
         }
 
         if (!packet.isEncoded) {
@@ -79,7 +71,7 @@ class BatchPacket extends DataPacket {
             let pk = session.raknetAdapter.packetPool.getPacket(buf[0]);
 
             if (pk instanceof DataPacket) {
-                if (!pk.canBeBatched()) {
+                if (!pk.allowBatching) {
                     throw new Error("Received invalid " + pk.getName() + " inside BatchPacket");
                 }
 

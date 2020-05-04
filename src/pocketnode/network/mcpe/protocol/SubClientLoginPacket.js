@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class SubClientLoginPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.SUB_CLIENT_LOGIN_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.SUB_CLIENT_LOGIN_PACKET;
 
     /** @type {string} */
     connectionRequestData = "";

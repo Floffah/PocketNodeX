@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class SetDefaultGameTypePacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.SET_DEFAULT_GAME_TYPE_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.SET_DEFAULT_GAME_TYPE_PACKET;
 
     /** @type {number} */
     gamemode = 0;

@@ -2,10 +2,10 @@ const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 const CommandOutputMessage = require("./types/CommandOutputMessage");
 
+"use strict";
+
 class CommandOutputPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.COMMAND_OUTPUT_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.COMMAND_OUTPUT_PACKET;
 
     /** @type {any} */
     originData;

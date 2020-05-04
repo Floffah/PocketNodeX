@@ -1,12 +1,12 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 const Vector3 = require("../../../math/Vector3");
 
 class AddPaintingPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.ADD_PAINTING_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.ADD_PAINTING_PACKET;
 
     /** @type {number|null} */
     entityUniqueId = null;

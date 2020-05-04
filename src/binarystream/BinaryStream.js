@@ -452,7 +452,15 @@ class BinaryStream {
     }
 
     readLLong() {
-        return this.buffer.readUInt32LE(0) + (this.buffer.readUInt32LE(4) << 8);
+        let buf = this.read(8);
+        return ((buf[7] << 56) +
+            ((buf[6] & 0xFF) << 48) +
+            ((buf[5] & 0xFF) << 40) +
+            ((buf[4] & 0xFF) << 32) +
+            ((buf[3] & 0xFF) << 24) +
+            ((buf[2] & 0xFF) << 16) +
+            ((buf[1] & 0xFF) << 8) +
+            ((buf[0] & 0xFF)));
     }
 
     writeLLong(v) {
@@ -471,8 +479,10 @@ class BinaryStream {
      */
     readUnsignedVarInt() {
         let value = 0;
-
-        for (let i = 0; i <= 35; i += 7) {
+        for (let i = 0; i <= 28; i += 7) {
+            if (typeof this.buffer[this.offset] !== "number") {
+                throw new Error("No bytes left in buffer");
+            }
             let b = this.readByte();
             value |= ((b & 0x7f) << i);
 
@@ -481,7 +491,7 @@ class BinaryStream {
             }
         }
 
-        return 0;
+        throw new Error("VarInt did not terminate after 5 bytes!");
     }
 
     /**
@@ -490,20 +500,20 @@ class BinaryStream {
      */
     writeUnsignedVarInt(v) {
         let stream = new BinaryStream();
+        v &= 0xffffffff;
 
         for (let i = 0; i < 5; i++) {
             if ((v >> 7) !== 0) {
                 stream.writeByte(v | 0x80);
             } else {
                 stream.writeByte(v & 0x7f);
-                break;
+                this.append(stream.buffer);
+                return
             }
-            v >>= 7;
+            v = ((v >> 7) & (0x7fffffff >> 6));
         }
 
         this.append(stream.buffer);
-
-        return this;
     }
 
     /**

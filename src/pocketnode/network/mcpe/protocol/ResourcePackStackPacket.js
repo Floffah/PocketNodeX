@@ -1,10 +1,10 @@
 const DataPacket = require("./DataPacket");
 const ProtocolInfo = require("../Info");
 
+"use strict";
+
 class ResourcePackStackPacket extends DataPacket {
-    static getId() {
-        return ProtocolInfo.RESOURCE_PACK_STACK_PACKET;
-    }
+    static NETWORK_ID = ProtocolInfo.RESOURCE_PACK_STACK_PACKET;
 
     /** @type {boolean} */
     mustAccept = false;
