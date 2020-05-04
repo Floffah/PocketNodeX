@@ -49,7 +49,7 @@ class PluginManager {
      * Load a plugin.
      * @param {String} rootpath
      * @param {pluginLoadedCallback} done
-     * @returns NodePlugin
+     * @returns Promise<NodePlugin>
      */
     async loadPlugin(rootpath, done) {
         let files = {
@@ -144,5 +144,5 @@ module.exports = PluginManager;
 /**
  * The callback ran when the plugin has finished loading
  * @callback pluginLoadedCallback
- * @param {NodePlugin} pluginInstance
+ * @param {NodePlugin|{error: String, message: String, name: String}} pluginInstance
  */

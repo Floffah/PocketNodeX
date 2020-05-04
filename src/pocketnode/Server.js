@@ -89,6 +89,7 @@ class Server {
     }
     this._config = new Config(this.getDataPath() + "pocketnode.json", Config.JSON, {});
     this._debuggingLevel = this._config.getNested("debugging.level", 0);
+    if(process.argv.includes("--debug")) this._debuggingLevel = 1;
 
     this.getLogger().setDebugging(this._debuggingLevel);
 

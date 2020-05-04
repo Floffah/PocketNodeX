@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fae901bb-40a3-4b37-a599-b130e892034e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pocketnode/Server.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/Server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pocketnode/plugin/PluginManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pocketnode/plugin/PluginManager.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +164,11 @@
       <workItem from="1588343606457" duration="691000" />
       <workItem from="1588357062574" duration="5473000" />
       <workItem from="1588363378630" duration="42000" />
-      <workItem from="1588407616617" duration="8937000" />
+      <workItem from="1588407616617" duration="10845000" />
+      <workItem from="1588420141255" duration="145000" />
+      <workItem from="1588427751802" duration="433000" />
+      <workItem from="1588445104261" duration="15000" />
+      <workItem from="1588621222643" duration="605000" />
     </task>
     <servers />
   </component>
