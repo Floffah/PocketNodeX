@@ -452,15 +452,7 @@ class BinaryStream {
     }
 
     readLLong() {
-        let buf = this.read(8);
-        return ((buf[7] << 56) +
-            ((buf[6] & 0xFF) << 48) +
-            ((buf[5] & 0xFF) << 40) +
-            ((buf[4] & 0xFF) << 32) +
-            ((buf[3] & 0xFF) << 24) +
-            ((buf[2] & 0xFF) << 16) +
-            ((buf[1] & 0xFF) << 8) +
-            ((buf[0] & 0xFF)));
+        return (this.buffer.readBigUInt64LE(this.increaseOffset(8)));
     }
 
     writeLLong(v) {
